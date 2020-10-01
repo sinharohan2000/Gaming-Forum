@@ -1,0 +1,13 @@
+/*-------------------------------------------------CLASS STYLING-----------------------------------------------------*/
+
+.top-container{
+  background-color: #eeeeee;
+  position: relative;
+
+}
+.jumbotron{
+  margin-bottom: 0;
+}
+.Login{
+  margin-left: 10px;
+}
