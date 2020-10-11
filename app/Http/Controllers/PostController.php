@@ -10,4 +10,5 @@ class PostController extends Controller
     {
     	echo "bye";
     }
+
 }

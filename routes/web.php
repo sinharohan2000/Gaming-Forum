@@ -19,3 +19,14 @@ Route::get('/', function () {
 });
 Route::get('/a', [UserController::class,'index']);
 Route::get('/b', [PostController::class,'index']);
+Route::get('/signup', [UserController::class,'redirectsignup']);
+Route::get('/signin', [UserController::class,'redirectsignin']);
+Route::view('/forget','user.forget');
+Route::get('/home',[UserController::class,'home']);
+Route::get('/logout',[UserController::class,'logout']);
+Route::get('/verify/{email}/{token}', [UserController::class, 'verify']);
+Route::get('/recover/{email}/{token}', [UserController::class, 'linkvalidation']);
+Route::POST('/create', [UserController::class, 'signup']);
+Route::POST('/home', [UserController::class, 'login']);
+Route::POST('/recover', [UserController::class, 'recover']);
+Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
