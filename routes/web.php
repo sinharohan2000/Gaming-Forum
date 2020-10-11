@@ -30,3 +30,6 @@ Route::POST('/create', [UserController::class, 'signup']);
 Route::POST('/home', [UserController::class, 'login']);
 Route::POST('/recover', [UserController::class, 'recover']);
 Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
+Route::fallback(function () {
+    return view('error');
+});
