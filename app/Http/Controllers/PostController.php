@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Gamer;
 use App\Models\Post;
+use App\Models\Comment;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -34,6 +35,28 @@ class PostController extends Controller
           		$request->session()->flash('fail', 'invalid file format');
      	 	    return back();
           }
+    }
+
+    public function comment(Request $request)
+    {
+    	$postid = base64_decode(base64_decode($request->segment(2)));
+    	$comments = Comment::fetchcomment($postid);
+    	$post = Post::fetchpost($postid);
+    	return view('post.comment',["comments" => $comments, "post" => $post]);
+    }
+
+    public function commentpost(Request $request)
+    {
+    	if(!empty($request->input('comment')))
+    	{
+    		Comment::commentpost($request);
+    		$arr = array();
+    		$arr[0] = Session::get('user')[0]['username'];
+    		$arr[1] = $request->input('comment');
+    		return $arr;
+    	}
+    	else
+    		return NULL;
     }
 
 }

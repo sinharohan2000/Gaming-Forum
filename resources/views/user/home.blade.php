@@ -42,44 +42,49 @@ Tags:</br>
 </div>
 
 <div>	
-	<form id="searchTags" method="post">
+	<form id="searchgamer" method="post">
     @csrf
     <input type="text" id="search" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" />
- <input   value="search" class="btn btn-primary btn-sm" onclick="searchPosts()">
-    
+    <input value="search" class="btn btn-primary btn-sm" onclick="searchgamer()">    
 </form>
-<div id=posts>
+<div id=gamers>
 	</div>
 </div>
+@foreach ($posts as $post)
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{$post->gamername}}</h1>
+            <p>{{$post->message}}</p>
+            <h3>{{$post->tags}}</h3>
+            <img src="{{$post->postpath}}" class="img-responsive">
+            <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post->id))}}" role="button">Comment</a>
+                <div id="rating">
+    
+                </div>
+        </div>
+        
+    </div>
+@endforeach
+
 </body>
 <script type="text/javascript">
 	$('#tags').tagsinput({
    trimValue: true
     });
-    function searchPosts(){
-            var sendData = $("#searchTags").serialize();
+    function searchgamer(){
+            var sendData = $("#searchgamer").serialize();
         $.ajax({
                 url: "/gamingforum/searchGamer",
                 type: "post",
                 data: sendData,
                 success: function(data) {
                    var html = "";
-                       if(data[0] == "null") {
-                       	html+="<p> No user Found</p>";
+                       if(data != "null") {
+
                        }  
-                       else
-                       {
-                       	if(data[1] == 0){
-                       			html+="<p>"+data[0]+"</p><br>already following<br>";
-                       	} else{
-                       		var link = "follow/"+data[0];
-                       			html+="<p>"+data[0]+"</p><br>"+"<a href='"+link+"'>Follow</a>.<br>";
-                       	}
-                       }
-                       $("#posts").html(html);        
-
+                       
+                       $("#gamers").html(html);
                    }
-
         });
        }
 </script>

@@ -32,8 +32,8 @@ class UserController extends Controller
       {
             if(Session::has('user'))
             {
-
-               return view('user.home');
+            	$posts = DB::table("posts")->where("gamerid",68)->get();
+               return view('user.home',["posts" => $posts]);
             }
                else
             return redirect()->to('/');
@@ -196,7 +196,6 @@ class UserController extends Controller
    	 		$gamerid = $result[0]['id'];
    	 		DB::table('followers')->insert(
           ['gamerid' => $gamerid, 'followerid' => $followerid]);
-   	 		$request->session()->flash('success', 'successfully following.');
           return back();
    	 	}
    	 	else
@@ -205,4 +204,7 @@ class UserController extends Controller
           return back();
    	 	}
       }
+
+
+
 }

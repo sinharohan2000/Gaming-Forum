@@ -16,7 +16,7 @@ class Post extends Model
     public static function post(Request $request)
     {
     	$message = $request->input('textarea');
-    	$tags = $request->input('tags')
+    	$tags = $request->input('tags');
     	$time = time();
 		$name = $time . "." . Session::get('user')[0]['id'];
 		Storage::disk('s3')->put($name, $request->photo, 'public');
@@ -26,6 +26,12 @@ class Post extends Model
     	['message' => $message, 'tags' => $tags, 'postpath'=> $filePath,'gamerid'=>Session::get('user')[0]['id']]
      	);	
      	return;
+    }
+
+     public static function fetchpost($id)
+    {
+    	$result = DB::table('posts')->where('id' , $id)->get();
+    	return $result;
     }
 
 }
