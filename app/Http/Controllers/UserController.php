@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Gamer;
+use App\Models\Post;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -31,27 +32,13 @@ class UserController extends Controller
       {
             if(Session::has('user'))
             {
+
                return view('user.home');
             }
                else
             return redirect()->to('/');
       }
 
-    public function redirectsignup()
-      {
-            if(!Session::has('user'))
-              return view('user.signup');
-            else
-             return redirect()->to('/home');
-      }
-
-     public function redirectsignin()
-     {
-        	if(!Session::has('user'))
-              return view('user.signin');
-            else
-              return redirect()->to('/home');
-     }
 
      public function signup(Request $request)
       {
@@ -172,5 +159,50 @@ class UserController extends Controller
         Gamer::updatepassword($request);
         $request->session()->flash('success', 'password updated successfully. login again');
           return redirect()->to('/signin');
+      }
+
+      public function searchGamer(Request $request)
+      {
+      	$gamername = $request->input('search');
+      	$selfname = Session::get('user')[0]['username'];
+      	$sql = "SELECT username,id FROM gamers WHERE username ='$gamername' AND username != '$selfname'";
+   	 	$result = self::convertToArray(DB::select(DB::raw($sql)));
+   	 	if(count($result) > 0)
+   	 	{
+   	 		$gamerid = $result[0]['id'];
+   	 		$followerid = Session::get('user')[0]['id'];
+   	 	$sql1 = "SELECT id FROM followers WHERE gamerid = '$gamerid' AND followerid = '$followerid'";
+   	 	$result1 = self::convertToArray(DB::select(DB::raw($sql1)));
+   	 	if(count($result1) > 0)
+   	 		$var = 0;
+   	 	else 
+   	 		$var = 1;
+   	 	$arr = array($gamername,$var);
+   	 	return $arr;
+   	 	}
+   	 	else
+   	 	return array("null",0);
+
+      }
+
+      public function follow(Request $request)
+      {
+      	$gamername = $request->gamername;
+      	$followerid = Session::get('user')[0]['id'];
+      	$sql = "SELECT id FROM gamers WHERE username ='$gamername'";
+   	 	$result = self::convertToArray(DB::select(DB::raw($sql)));
+   	 	if(count($result) > 0)
+   	 	{
+   	 		$gamerid = $result[0]['id'];
+   	 		DB::table('followers')->insert(
+          ['gamerid' => $gamerid, 'followerid' => $followerid]);
+   	 		$request->session()->flash('success', 'successfully following.');
+          return back();
+   	 	}
+   	 	else
+   	 	{
+   	 		$request->session()->flash('fail', 'broken link');
+          return back();
+   	 	}
       }
 }
