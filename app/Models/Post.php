@@ -19,19 +19,39 @@ class Post extends Model
     	$tags = $request->input('tags');
     	$time = time();
 		$name = $time . "." . Session::get('user')[0]['id'];
-		Storage::disk('s3')->put($name, $request->photo, 'public');
-		Storage::disk('s3')->setVisibility($name, 'public');
+		$path = $request->photo->storeAs('images', $name, 's3');
 		$filePath = "https://gamingtime.s3.ap-south-1.amazonaws.com/images/".$name;
 		DB::table('posts')->insert(
-    	['message' => $message, 'tags' => $tags, 'postpath'=> $filePath,'gamerid'=>Session::get('user')[0]['id']]
+    	['message' => $message, 'gamername' => Session::get('user')[0]['username'],'tags' => $tags, 'postpath'=> $filePath,'gamerid'=>Session::get('user')[0]['id']]
      	);	
      	return;
     }
 
-     public static function fetchpost($id)
+     public static function fetchpost($postid)
     {
-    	$result = DB::table('posts')->where('id' , $id)->get();
+    	$result = DB::table('posts')->where('id' , $postid)->orderby('id','desc')->get();
     	return $result;
     }
 
+    public static function fetchposts($gamerid)
+    {
+    	$result = DB::table('posts')->where('gamerid' , $gamerid)->orderby('id','desc')->get();
+    	return $result;
+    }
+ 	
+ 	public static function rating(Request $request)
+ 	{
+ 		$rating = $request->input('rating');
+    	$postid = $request->input('postid');
+ 		$result = DB::table('ratings')->where('postid' , $postid)->where('gamerid' , Session::get('user')[0]['id'])->get();
+ 		if(count($result) == 0)
+ 			DB::table('ratings')->insert(
+    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id'],'rating' => $rating]
+     	);
+     	else
+     		DB::table('ratings')->where(
+    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id']])->update(["rating" => $rating]);
+     	return;
+
+ 	}
 }

@@ -36,6 +36,8 @@ Route::POST('/searchGamer',[UserController::class,'searchGamer'])->middleware('a
 Route::get('follow/{gamername}', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
+Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
+Route::post('/ratingfetch' , [PostController::class, 'rating'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });

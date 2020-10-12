@@ -32,8 +32,14 @@ class UserController extends Controller
       {
             if(Session::has('user'))
             {
-            	$posts = DB::table("posts")->where("gamerid",68)->get();
-               return view('user.home',["posts" => $posts]);
+            	$posts = Post::fetchposts(Session::get('user')[0]['id']);
+            	$posts = self::convertToArray($posts);
+            	$sql = "SELECT B.*,C.rating FROM followers AS A 
+            	INNER JOIN posts AS B 
+            	ON A.gamerid = B.gamerid INNER JOIN ratings AS C ON C.postid = B.id  WHERE A.followerid = ".Session::get('user')[0]['id'];
+            	$result = DB::select(DB::raw($sql));
+      			$result = self::convertToArray($result);
+               return view('user.home',["posts" => $result,"sposts" => $posts]);
             }
                else
             return redirect()->to('/');

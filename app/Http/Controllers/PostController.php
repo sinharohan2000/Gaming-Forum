@@ -59,4 +59,21 @@ class PostController extends Controller
     		return NULL;
     }
 
+    public function rating(Request $request)
+    {
+    	Post::rating($request);
+    	return $request->input('rating');
+    	
+    }
+
+    public function ratingfetch(Request $req)
+    {
+    	$postid = $request->input('postid');
+    	$result = DB::table('ratings')->where(
+    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id']])->get();
+    	if(count($result) == 0)
+    		return 0;
+    	else
+    		return $result[0]->rating;
+    }
 }

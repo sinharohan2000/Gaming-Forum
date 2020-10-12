@@ -26,6 +26,7 @@
 	</div>
 	
 <a href="logout"> logout</a>
+{{Session::get('user')[0]['username']}}
 <div align="center">
 <form action="post" method="POST" enctype="multipart/form-data">
     @csrf
@@ -45,24 +46,44 @@ Tags:</br>
 	<form id="searchgamer" method="post">
     @csrf
     <input type="text" id="search" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" />
-    <input value="search" class="btn btn-primary btn-sm" onclick="searchgamer()">    
+ <input   value="search" class="btn btn-primary btn-sm" onclick="searchgamer()">
+    
 </form>
 <div id=gamers>
 	</div>
 </div>
 @foreach ($posts as $post)
     <div class="jumbotron">
-        <div class="container">
-            <h1>{{$post->gamername}}</h1>
-            <p>{{$post->message}}</p>
-            <h3>{{$post->tags}}</h3>
-            <img src="{{$post->postpath}}" class="img-responsive">
-            <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post->id))}}" role="button">Comment</a>
-                <div id="rating">
-    
+        <h1>{{$post["gamername"]}}</h1>
+            <p>{{$post["message"]}}</p>
+            <h3>{{$post['tags']}}</h3>
+            <img src="{{$post['postpath']}}" class="img-responsive">
+            <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post['id']))}}" role="button">Comment</a>
+                <div id="rating" align="center">
+                	<select name="rating" onchange="rating(this.value, '<?=$post['id'] ?>')">
+                		<option value="1">1</option>
+                		<option value="2">2</option>
+                		<option value="3">3</option>
+                		<option value="4">4</option>
+                		<option value="5">5</option>
+                		
+                	</select>
+                	<div id="ratingval<?=$post['id'] ?>" style= "float: right;" align='right'>
+                		{{$post["rating"]}}
+                	</div>
+
                 </div>
-        </div>
+
         
+    </div>
+@endforeach
+@foreach ($sposts as $post)
+    <div class="jumbotron">
+        <h1>{{$post["gamername"]}}</h1>
+            <p>{{$post["message"]}}</p>
+            <h3>{{$post['tags']}}</h3>
+            <img src="{{$post['postpath']}}" class="img-responsive">
+            <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post['id']))}}" role="button">Comment</a>        
     </div>
 @endforeach
 
@@ -79,11 +100,53 @@ Tags:</br>
                 data: sendData,
                 success: function(data) {
                    var html = "";
-                       if(data != "null") {
-
+                       if(data[0] == "null") {
+                       	html+="<p> No user Found</p>";
                        }  
-                       
+                       else
+                       {
+                       	if(data[1] == 0){
+                       			html+="<p>"+data[0]+"</p><br>already following<br>";
+                       	} else{
+                       		var link = "follow/"+data[0];
+                       			html+="<br><p>"+data[0]+"</p>"+"<a href='"+link+"'>Follow</a>";
+                       	}
+                       }
                        $("#gamers").html(html);
+                   }
+        });
+       }
+</script>
+<script type="text/javascript">
+	function rating(val,postid){
+        $.ajax({
+                url: "/gamingforum/rating",
+                type: "post",
+                data: {
+				        "_token": "{{ csrf_token() }}",
+				        "rating": val,
+				        "postid": postid
+				        },
+                success: function(data) {
+                	console.log(data,postid);
+                    
+                       $("#ratingval"+postid).text(data);
+                   }
+        });
+       }
+</script>
+<script type="text/javascript">
+	function ratingfetch($postid){
+        $.ajax({
+                url: "/gamingforum/ratingfetch",
+                type: "post",
+                data: {
+				        "_token": "{{ csrf_token() }}",
+				        "postid": $postid
+				        },
+                success: function(data) {
+                   
+                       $("#ratingval"+postid).text(data);
                    }
         });
        }
