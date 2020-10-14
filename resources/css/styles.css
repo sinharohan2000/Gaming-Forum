@@ -1,0 +1,65 @@
+/*-------------------------------------------------BLOCK STYLING-----------------------------------------------------*/
+h1 {
+  font-family: 'Comfortaa', cursive;
+  color: #393b44;
+}
+
+h2 {
+  font-family: 'Comfortaa', cursive;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+/*-------------------------------------------------CLASS STYLING-----------------------------------------------------*/
+.top-container {
+  background-color: #f1f3f8;
+  padding: 50px 0 50px 0;
+  position: relative;
+}
+
+.jumbotron {
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  background-color: #f1f3f8;
+}
+
+.Login {
+  margin-left: 10px;
+}
+
+.bottom-container {
+  position: relative;
+  background-color: #393b44;
+  padding: 20px 0 5px 0;
+}
+
+.facebook {
+  width: 30px;
+}
+
+.end {
+  font-size: 15px;
+  text-align: center;
+  color: white;
+}
+
+.bg {
+  background-color: #393b44;
+}
+
+.btn-outline-success {
+  color: #f1f3f8;
+  border-color: #f1f3f8;
+}
+
+.mb-3, .my-3 {
+  margin-left: auto;
+  margin-right: auto;
+  width: 15rem;
+}
+
+.username {
+  width: 15px;
+}

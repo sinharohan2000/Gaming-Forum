@@ -17,6 +17,9 @@ use App\Http\Controllers\PostController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 Route::get('/a', [UserController::class,'index']);
 Route::get('/b', [PostController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
@@ -37,7 +40,7 @@ Route::get('follow/{gamername}', [UserController::class, 'follow'])->middleware(
 Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
-Route::post('/ratingfetch' , [PostController::class, 'rating'])->middleware('authorize');
+Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });
