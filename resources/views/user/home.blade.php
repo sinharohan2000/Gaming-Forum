@@ -51,11 +51,7 @@
       <a class="btn btn-outline-success my-2 my-sm-0 Login" type="submit" href="logout">Logout</a>
     </div>
   </nav>
-
-
-
-
-	<div class="container">
+	<div class="container" class="jumbotron">
 		@if(Session::has('fail'))
     <div class="alert alert-danger">
         {{ Session::get('fail') }}
@@ -68,20 +64,22 @@
     </div>
     @endif
 	</div>
-<div align="center">
-<form action="post" method="POST" enctype="multipart/form-data">
-    @csrf
-Type something:</br>
-<textarea name="textarea" rows="2" id="textarea"></textarea>
-</br>
-Tags:</br>
-<input type="text" class="form-control" name="tags" data-role="tagsinput" id="tags"></br>
-  Select image to upload:
-  <input type="file" name="photo" id="photo">
-</br></br>
-  <input type="submit" value="Upload Image" name="submit">
-</form>
-</div>
+    <div class="jumbotron">
+        <div align="center">
+        <form action="post" method="POST" enctype="multipart/form-data">
+            @csrf
+        Type something:</br>
+        <textarea name="textarea" rows="2" id="textarea"></textarea>
+        </br>
+        Tags:</br>
+        <input type="text" class="form-control" name="tags" data-role="tagsinput" id="tags"></br>
+          Select image to upload:
+          <input type="file" name="photo" id="photo">
+        </br></br>
+          <input type="submit" value="Upload Image" name="submit">
+        </form>
+        </div>
+      </div>
 
 <div>	
 	<form id="searchgamer" method="post">
@@ -109,7 +107,14 @@ Tags:</br>
         <h2>{{$post["gamername"]}} has posted</h2>
             <p>{{$post["message"]}}</p>
             <h3>{{$post['tags']}}</h3>
-            <img src="{{$post['postpath']}}" class="img-responsive">
+            <div align="right"> <h3>avg rate= {{$post["rating"]}}</h3></div>
+            <form id="support" method="post">
+              @csrf
+              <input type="number" id="money" name="money" style="width: 200px;height: 30px" maxlength="64"/>
+           <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">              
+          </form>
+          <div id="paid" align="center"></div>
+          <img src="{{$post['postpath']}}" class="img-responsive">
             <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post['id']))}}" role="button">Comment</a>
                 <div id="rating" align="center">
                 	<select name="rating" onchange="rating(this.value, '<?=$post['id'] ?>')">
@@ -131,9 +136,11 @@ Tags:</br>
 @endforeach
 @foreach ($sposts as $post)
     <div class="jumbotron">
-        <h2>{{$post["gamername"]}} has posted</h2> 
+        <h2>you posted</h2> 
             <p>{{$post["message"]}}</p>
             <h3>{{$post['tags']}}</h3>
+            <div align="center"> <h3>earned money {{$post["money"]}}</h3></div>
+            <div align="right"> <h3>avg rate= {{$post["rating"]}}</h3></div>
             <img src="{{$post['postpath']}}" class="img-responsive">
             <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post['id']))}}" role="button">Comment</a>        
     </div>
@@ -213,13 +220,32 @@ Tags:</br>
                 success: function(data) {
                    var html = "";
                    for (var i = 0; i < data.length; i++) {
-                       html+="<h2>"+data[i]["ownername"]+" has posted </h2><br><p>"+data[i]["message"]+"</p><br><h3>"+data[i]["tags"]+"</h3><br><p><img src='"+data[i]["postpath"]+"' class='img-responsive'></p><br>";
+                       html+="<h2>"+data[i]["gamername"]+" has posted </h2><br><p>"+data[i]["message"]+"</p><br><h3>"+data[i]["tags"]+"</h3><br><p><img src='"+data[i]["postpath"]+"' class='img-responsive'></p><br>";
                    }
                    $("#posts").html(html);
 
                 }
             });
         }
+</script>
+<script type="text/javascript">
+  function support(money,postid){
+    var money = $('#'+money).val()
+        $.ajax({
+                url: "/gamingforum/support",
+                type: "post",
+                data: {
+                "_token": "{{ csrf_token() }}",
+                "postid": postid,
+                "money": money
+                },
+                success: function(data) {
+                    var html = "";
+                    html += "<h2>Paid successfully </h2>";
+                    $("#paid").html(html);
+                   }
 
+        });
+       }
 </script>
 </html>

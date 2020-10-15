@@ -34,11 +34,20 @@ class UserController extends Controller
             {
             	$posts = Post::fetchposts(Session::get('user')[0]['id']);
             	$posts = self::convertToArray($posts);
-            	$sql = "SELECT B.*,C.rating FROM followers AS A 
+              for ($i=0; $i < count($posts); $i++) { 
+                $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+                $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
+
+              }
+
+            	$sql = "SELECT B.* FROM followers AS A 
             	INNER JOIN posts AS B 
-            	ON A.gamerid = B.gamerid INNER JOIN ratings AS C ON C.postid = B.id  WHERE A.followerid = ".Session::get('user')[0]['id'];
+            	ON A.gamerid = B.gamerid  WHERE A.followerid = ".Session::get('user')[0]['id'];
             	$result = DB::select(DB::raw($sql));
-      			$result = self::convertToArray($result);
+      			  $result = self::convertToArray($result);
+              for ($i=0; $i < count($result); $i++) { 
+                $result[$i]['rating'] = Post::fetchrating($result[$i]['id']);
+              }
                return view('user.home',["posts" => $result,"sposts" => $posts]);
             }
                else

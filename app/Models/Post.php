@@ -13,6 +13,16 @@ class Post extends Model
 {
     use HasFactory;
 
+    public static function convertToArray($array)
+        {
+             $result = array();
+                foreach ($array as $object)
+                {
+                    $result[] = (array) $object;
+                }
+
+                return $result;
+        }
     public static function post(Request $request)
     {
     	$message = $request->input('textarea');
@@ -54,4 +64,27 @@ class Post extends Model
      	return;
 
  	}
+    public static function support(Request $request)
+    {
+        $money = DB::table('posts')->where('id',$request->input('postid'))->get();
+        $val = $money[0]->money+$request->input('money');
+        DB::table('posts')->where('id', $request->input('postid'))->update(['money' => $val]);
+    }
+    public static function fetchrating($postid)
+    {
+        $var = 0;
+        $result = DB::table('ratings')->where('postid',$postid)->get();
+        $result = self::convertToArray($result);
+        for ($i=0; $i < count($result) ; $i++) { 
+            $var += $result[$i]['rating'];
+        }
+        $var = $var/count($result);
+        return $var;
+    }
+
+    public static function fetchmoney($postid)
+    {
+        $result = self::convertToArray( DB::table('posts')->where('id',$postid)->get());
+        return $result[0]['money'];
+    }
 }

@@ -77,6 +77,7 @@ class PostController extends Controller
     public function rating(Request $request)
     {
     	Post::rating($request);
+
     	return $request->input('rating');
     	
     }
@@ -99,5 +100,12 @@ class PostController extends Controller
         $result = DB::select(DB::raw($sql));
         return $result;
 
+      }
+
+      public function support(Request $request)
+      {
+        Notificationmodel::paynotification($request);
+        Post::support($request);
+        return ;
       }
 }

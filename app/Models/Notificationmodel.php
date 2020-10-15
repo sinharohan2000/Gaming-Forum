@@ -23,7 +23,6 @@ class Notificationmodel extends Model
 
             return $result;
     }
-
     public static function post($id)
     {
     	$notification = Session::get('user')[0]['username']." has posted something.";
@@ -32,11 +31,21 @@ class Notificationmodel extends Model
      	return;
     }
 
+    public static function paynotification(Request $request)
+    {
+    	$money = $request->input('money');
+    	$id = self::convertToArray(DB::table('posts')->where('id',$request->input('postid'))->get());
+    	$notification = Session::get('user')[0]['username']." has paid you ". $money;
+    	DB::table('notifications')->insert(
+    	['notification' => $notification, 'gamerid' => Session::get('user')[0]['id']]);	
+     	return;
+    }
+
     public static function fetchnotification($id)
     {
-    		$sql = "SELECT B.*,C.username FROM followers AS A 
+    		$sql = "SELECT B.* FROM followers AS A 
             	INNER JOIN notifications AS B 
-            	ON A.gamerid = B.gamerid INNER JOIN gamers AS C ON C.id = A.gamerid WHERE A.followerid = $id";
+            	ON A.gamerid = B.gamerid WHERE A.followerid = $id";
        		$result = DB::select(DB::raw($sql));
         return self::convertToArray($result);
     }

@@ -42,6 +42,7 @@ Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
 Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware('authorize');
+Route::post('/support' , [PostController::class, 'support'])->middleware('authorize');
 Route::get('/notification' ,[Notification::class,'fetchnotification'])->middleware('authorize');
 Route::POST('/searchPosts',[PostController::class,'searchPosts']);
 Route::fallback(function () {

@@ -44,6 +44,8 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a><!-- TODO: Add Link -->
         </li>
       </ul>
+      <strong style="color: white">{{Session::get('user')[0]['username']}}</strong>
+      <a class="btn btn-outline-success my-2 my-sm-0 Login" type="submit" href="logout">Logout</a>
     </div>
   </nav>
 
