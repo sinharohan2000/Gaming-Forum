@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Notification;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,8 @@ Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
 Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware('authorize');
+Route::get('/notification' ,[Notification::class,'fetchnotification'])->middleware('authorize');
+Route::POST('/searchPosts',[PostController::class,'searchPosts']);
 Route::fallback(function () {
     return view('error');
 });

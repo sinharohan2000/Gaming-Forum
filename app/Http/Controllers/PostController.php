@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Gamer;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Notificationmodel;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -17,10 +18,22 @@ class PostController extends Controller
     {
     	echo "bye";
     }
-
-    public function test()
+    public static function convertToArray($array)
     {
-    	echo "kal milte hai";
+         $result = array();
+            foreach ($array as $object)
+            {
+                $result[] = (array) $object;
+            }
+
+            return $result;
+    }
+
+    public function fetchnotification()
+    {
+        $var = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);
+        $var = self::convertToArray($var);
+        return view('post.notification',['notifications' => $var]);
     }
     public function post(Request $request)
     {
@@ -28,6 +41,8 @@ class PostController extends Controller
           if($extension == "png" || $extension == "jpeg" || $extension == "jpg" || $extension == "mp4")
           {
           	Post::post($request);
+            Notificationmodel::post(Session::get('user')[0]['id']);
+
           	return redirect('/home');
           }
           else
@@ -76,4 +91,13 @@ class PostController extends Controller
     	else
     		return $result[0]->rating;
     }
+
+    public function searchPosts(Request $request)
+      {
+        $search=$request->input('search');
+        $sql = "SELECT * FROM posts WHERE tags like '%".$search."%'";
+        $result = DB::select(DB::raw($sql));
+        return $result;
+
+      }
 }
