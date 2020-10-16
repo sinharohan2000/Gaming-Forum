@@ -37,7 +37,7 @@ Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
 Route::POST('/post',[PostController::class, 'post']);
 Route::get('/test',[PostController::class, 'test']);
 Route::POST('/searchGamer',[UserController::class,'searchGamer'])->middleware('authorize');
-Route::get('follow/{gamername}', [UserController::class, 'follow'])->middleware('authorize');
+Route::get('follow/{gamerid}', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
@@ -45,6 +45,8 @@ Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware
 Route::post('/support' , [PostController::class, 'support'])->middleware('authorize');
 Route::get('/notification' ,[Notification::class,'fetchnotification'])->middleware('authorize');
 Route::POST('/searchPosts',[PostController::class,'searchPosts']);
+Route::get('/profile',[UserController::class,'profile'])->middleware('authorize');
+Route::get('/gamerprofile/{id}',[UserController::class,'gamerprofile'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });

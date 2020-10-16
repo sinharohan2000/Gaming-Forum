@@ -145,7 +145,6 @@
             <a class="btn btn-primary" href="comment/{{base64_encode(base64_encode($post['id']))}}" role="button">Comment</a>        
     </div>
 @endforeach
-
 </body>
 <script type="text/javascript">
 	$('#tags').tagsinput({
@@ -159,17 +158,13 @@
                 data: sendData,
                 success: function(data) {
                    var html = "";
-                       if(data[0] == "null") {
-                       	html+="<p> No user Found</p>";
+                       if(data[0] == "NULL") {
+                       	html+="<h2> No Gamer Found</h2>";
                        }  
                        else
                        {
-                       	if(data[1] == 0){
-                       			html+="<p>"+data[0]+"</p><br>already following<br>";
-                       	} else{
-                       		var link = "follow/"+data[0];
-                       			html+="<br><p>"+data[0]+"</p>"+"<a href='"+link+"'>Follow</a>";
-                       	}
+                        var link = "/gamingforum/gamerprofile/"+btoa(btoa(data[1]));
+                        html += "<a href='"+link+"'>"+"<h2>"+data[0]+"</h2>"+"</a>";
                        }
                        $("#gamers").html(html);
                    }

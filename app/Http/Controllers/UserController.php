@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Gamer;
 use App\Models\Post;
+use App\Models\Follower;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -13,111 +14,147 @@ use App\Http\Controllers\Storage;
 class UserController extends Controller
 {
     public function index()
-    {
-    	echo "hi";
-    }
+      {
+    	 echo "hi";
+      }
 
     public static function convertToArray($array)
-    {
-         $result = array();
-            foreach ($array as $object)
-            {
-                $result[] = (array) $object;
-            }
-
-            return $result;
-    }
+      {
+        $result = array();
+        foreach ($array as $object)
+        {
+          $result[] = (array) $object;
+        }
+        return $result;
+      }
 
     public function home()
       {
-            if(Session::has('user'))
-            {
-            	$posts = Post::fetchposts(Session::get('user')[0]['id']);
-            	$posts = self::convertToArray($posts);
-              for ($i=0; $i < count($posts); $i++) { 
-                $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
-                $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
-
-              }
-
-            	$sql = "SELECT B.* FROM followers AS A 
-            	INNER JOIN posts AS B 
-            	ON A.gamerid = B.gamerid  WHERE A.followerid = ".Session::get('user')[0]['id'];
-            	$result = DB::select(DB::raw($sql));
-      			  $result = self::convertToArray($result);
-              for ($i=0; $i < count($result); $i++) { 
-                $result[$i]['rating'] = Post::fetchrating($result[$i]['id']);
-              }
-               return view('user.home',["posts" => $result,"sposts" => $posts]);
+        if(Session::has('user'))
+          {
+            $posts = Post::fetchposts(Session::get('user')[0]['id']);
+            $posts = self::convertToArray($posts);
+            for ($i=0; $i < count($posts); $i++) { 
+              $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+              $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
             }
-               else
+            $sql = "SELECT B.* FROM followers AS A 
+            INNER JOIN posts AS B 
+            ON A.gamerid = B.gamerid  WHERE A.followerid = ".Session::get('user')[0]['id'];
+            $result = DB::select(DB::raw($sql));
+      			 $result = self::convertToArray($result);
+            for ($i=0; $i < count($result); $i++) { 
+              $result[$i]['rating'] = Post::fetchrating($result[$i]['id']);
+            }
+              return view('user.home',["posts" => $result,"sposts" => $posts]);
+            }
+              else
             return redirect()->to('/');
       }
 
-
-     public function signup(Request $request)
+    public function profile(Request $request)
       {
-          $validator = Validator::make($request->all(),[
+        $gamername = Session::get('user')[0]['username'];
+        $posts = Post::fetchposts(Session::get('user')[0]['id']);
+        $posts = self::convertToArray($posts);
+        for ($i=0; $i < count($posts); $i++) 
+        { 
+          $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+          $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
+        }
+
+        $followers = count(Follower::fetchfollowers(Session::get('user')[0]['id']));
+
+        $following = count(Follower::fetchfollowing(Session::get('user')[0]['id']));
+
+        return view('user.profile',["gamername" => $gamername,"posts" => $posts, "followers" => $followers, "followings" => $following]);
+    }
+
+      public function gamerprofile(Request $request)
+        {
+        $gamerid = base64_decode(base64_decode($request->segment(2)));
+        $gamername = Gamer::fetchgamername($gamerid);
+        $isFollowing = Follower::isFollowing($gamerid);
+
+        $posts = Post::fetchposts($gamerid);
+        for ($i=0; $i < count($posts) ; $i++) { 
+          unset($posts[$i]['money']);
+        }
+        for ($i=0; $i < count($posts); $i++) 
+          $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+
+        $followers = count(Follower::fetchfollowers($gamerid));
+
+        $following = count(Follower::fetchfollowing($gamerid));
+          
+
+          return view('user.gamerprofile',["gamername" => $gamername,"posts" => $posts, "followers" => $followers, "followings" => $following, "isFollowing" => $isFollowing]); 
+      }
+
+    public function signup(Request $request)
+      {
+        $validator = Validator::make($request->all(),
+          [
             'username' => 'required|min:6',
             'email' => 'required|email:rfc,dns',
             'password' => 'required|min:8',
           ]);
-          if($validator->fails()){
-            return redirect('/signup')->withErrors($validator)->withInput();
-          }
+        if($validator->fails())
+          return redirect('/signup')->withErrors($validator)->withInput();
 
-     	     if(Gamer::signup($request))
-           {
+     	  if(Gamer::signup($request))
+          {
             $request->session()->flash('success', 'registered successfully. please verify your email to enjoy');
             return redirect()->to('/signin');
      	    } 
-          else {
+          else 
+          {
      	  	  $request->session()->flash('fail', 'username or email exist.');
      	 	    return redirect()->to('/signup');
-     	         }	
+     	    }	
       }
 
-      public function verify(Request $request)
-    {
-           	if(Gamer::verify($request) == 1)
-            {
-             	 $request->session()->flash('success', 'verified.');
-            	 return redirect()->to('/signin');
-            } 
-            elseif(Gamer::verify($request) == 3)
+    public function verify(Request $request)
+      {
+        if(Gamer::verify($request) == 1)
+          {
+            $request->session()->flash('success', 'verified.');
+            return redirect()->to('/signin');
+          } 
+          elseif(Gamer::verify($request) == 3)
         	{
-        		 $request->session()->flash('fail', 'link broken. A new link has been sent to you.');
-              	 return redirect()->to('/signin');
+        		$request->session()->flash('fail', 'link broken. A new link has been sent to you.');
+            return redirect()->to('/signin');
         	}
         	elseif(Gamer::verify($request) == 2)
         	{
-        		 $request->session()->flash('success', 'already verified.');
-              	 return redirect()->to('/signin');
+        		$request->session()->flash('success', 'already verified.');
+            return redirect()->to('/signin');
         	}
     }
 
-     public static function login(Request $request)
+    public static function login(Request $request)
      {
-          $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),
+          [
             'email' => 'required|email:rfc,dns',
             'password' => 'required|min:8',
           ]);
 
-          if($validator->fails()){
-            return redirect('/signin')->withErrors($validator)->withInput();
-          }
-          if(Gamer::login($request) == 1)
-          		return redirect()->to('/home'); 
-          else if(Gamer::login($request) == 2)
-          {
-              $request->session()->flash('fail', 'please verify your email first.');
-              return redirect()->to('/signin');
-          }
-          elseif(Gamer::login($request) == 3)
-          {
-          		$request->session()->flash('fail', 'email or password is incorrect.');
-         	 	return redirect()->to('/signin');
-          }
+        if($validator->fails())
+          return redirect('/signin')->withErrors($validator)->withInput();
+        if(Gamer::login($request) == 1)
+        		return redirect()->to('/home'); 
+        else if(Gamer::login($request) == 2)
+        {
+            $request->session()->flash('fail', 'please verify your email first.');
+            return redirect()->to('/signin');
+        }
+        elseif(Gamer::login($request) == 3)
+        {
+        		$request->session()->flash('fail', 'email or password is incorrect.');
+       	 	return redirect()->to('/signin');
+        }
       }
 
       public function logout()
@@ -181,23 +218,16 @@ class UserController extends Controller
       	$gamername = $request->input('search');
       	$selfname = Session::get('user')[0]['username'];
       	$sql = "SELECT username,id FROM gamers WHERE username ='$gamername' AND username != '$selfname'";
-   	 	$result = self::convertToArray(DB::select(DB::raw($sql)));
-   	 	if(count($result) > 0)
-   	 	{
-   	 		$gamerid = $result[0]['id'];
-   	 		$followerid = Session::get('user')[0]['id'];
-   	 	$sql1 = "SELECT id FROM followers WHERE gamerid = '$gamerid' AND followerid = '$followerid'";
-   	 	$result1 = self::convertToArray(DB::select(DB::raw($sql1)));
-   	 	if(count($result1) > 0)
-   	 		$var = 0;
-   	 	else 
-   	 		$var = 1;
-   	 	$arr = array($gamername,$var);
-   	 	return $arr;
-   	 	}
-   	 	else
-   	 	return array("null",0);
-
+   	 	  $result = self::convertToArray(DB::select(DB::raw($sql)));
+   	 	  if(count($result) > 0)
+   	 	  {
+   	 		$gamername = $result[0]['username'];
+        $id = $result[0]['id'];
+   	 	  $arr = array($gamername,$id);
+   	 	  return $arr;
+   	 	  }
+   	 	  else
+   	 	  return array("NULL",-1);
       }
 
       public function follow(Request $request)

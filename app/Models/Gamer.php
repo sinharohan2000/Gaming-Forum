@@ -130,4 +130,13 @@ class Gamer extends Model
         Session::flush();
         return;
       }
+
+      public static function fetchgamername($id)
+      {
+        $result = self::convertToArray(DB::table('gamers')->where('id',$id)->get('username'));
+        if(count($result))
+          return $result[0]['username'];
+        else
+          return NULL;
+      }
 }
