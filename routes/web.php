@@ -47,6 +47,10 @@ Route::get('/notification' ,[Notification::class,'fetchnotification'])->middlewa
 Route::POST('/searchPosts',[PostController::class,'searchPosts']);
 Route::get('/profile',[UserController::class,'profile'])->middleware('authorize');
 Route::get('/gamerprofile/{id}',[UserController::class,'gamerprofile'])->middleware('authorize');
+Route::get('/update',function(){
+	return view('user.update');
+})->middleware('authorize');
+Route::post('/update',[UserController::class,'update'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });

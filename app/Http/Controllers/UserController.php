@@ -250,6 +250,18 @@ class UserController extends Controller
    	 	}
       }
 
+      public function update(Request $request)
+      {
+        $validator = Validator::make($request->all(),[
+            'password' => 'required|min:8',
+          ]);
 
+          if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+          }
+        Gamer::updatepass($request);
+        $request->session()->flash('success', 'password updated successfully.');
+        return redirect()->to('/profile');
+      }
 
 }

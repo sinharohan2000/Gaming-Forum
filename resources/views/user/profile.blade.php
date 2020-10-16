@@ -28,8 +28,8 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Update Password</a>
-            <a class="dropdown-item" href="logout">Log OUt</a>
+            <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="/gamingforum/logout">Log OUt</a>
           </div>
         </li>
         <li class="nav-item">
@@ -41,6 +41,13 @@
       </ul>
     </div>
   </nav>
+    <div align="center">
+      @if(Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+        @endif
+      </div>
   <div class="container">
     <div class="row">
       <div class="col-3" align="center">

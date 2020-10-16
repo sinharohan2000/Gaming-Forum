@@ -139,4 +139,12 @@ class Gamer extends Model
         else
           return NULL;
       }
+
+      public static function updatepass(Request $request)
+      {
+        $newpassword = md5($request->input('password'));
+        $id = Session::get('user')[0]['id'];
+        DB::table('gamers')->where('id',$id)->update(['password' => $newpassword]);
+        return;
+      }
 }
