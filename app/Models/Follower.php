@@ -40,4 +40,15 @@ class Follower extends Model
       	return count($result);
       }
 
+      public static function follow($gamerid)
+      {
+      	$followerid = Session::get('user')[0]['id'];
+      	if(count(self::convertToArray(DB::table('followers')->where('gamerid',$gamerid)->where('followerid',$followerid)->get())))
+      		return 0;
+      	else
+      		DB::table('followers')->insert(
+          ['gamerid' => $gamerid, 'followerid' => $followerid]);
+      	return 1;
+      }
+
 }

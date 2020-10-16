@@ -37,7 +37,7 @@ Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
 Route::POST('/post',[PostController::class, 'post']);
 Route::get('/test',[PostController::class, 'test']);
 Route::POST('/searchGamer',[UserController::class,'searchGamer'])->middleware('authorize');
-Route::get('follow/{gamerid}', [UserController::class, 'follow'])->middleware('authorize');
+Route::post('follow', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
@@ -51,6 +51,7 @@ Route::get('/update',function(){
 	return view('user.update');
 })->middleware('authorize');
 Route::post('/update',[UserController::class,'update'])->middleware('authorize');
+Route::post('/changeprofile',[UserController::class,'changeprofile'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });

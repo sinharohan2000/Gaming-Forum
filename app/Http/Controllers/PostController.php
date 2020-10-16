@@ -8,6 +8,7 @@ use App\Models\Gamer;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Notificationmodel;
+use App\Models\Rating;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -76,7 +77,7 @@ class PostController extends Controller
 
     public function rating(Request $request)
     {
-    	Post::rating($request);
+    	Rating::rating($request);
 
     	return $request->input('rating');
     	
@@ -84,13 +85,7 @@ class PostController extends Controller
 
     public function ratingfetch(Request $req)
     {
-    	$postid = $request->input('postid');
-    	$result = DB::table('ratings')->where(
-    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id']])->get();
-    	if(count($result) == 0)
-    		return 0;
-    	else
-    		return $result[0]->rating;
+    	return Rating::ratingfetch($request->input('postid'));
     }
 
     public function searchPosts(Request $request)

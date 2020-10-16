@@ -147,4 +147,20 @@ class Gamer extends Model
         DB::table('gamers')->where('id',$id)->update(['password' => $newpassword]);
         return;
       }
+
+      public static function fetchuser($id)
+      {
+        return self::convertToArray(DB::table('gamers')->where('id',$id)->select('username','profilepath','id')->get());
+      }
+
+      public static function changeprofile(Request $request)
+      {
+        $gamerid = Session::get('user')[0]['id'];
+        $time = time();
+        $name = $time . "." . Session::get('user')[0]['id'];
+        $path = $request->photo->storeAs('images', $name, 's3');
+        $profilepath = "https://gamingtime.s3.ap-south-1.amazonaws.com/images/".$name;
+        DB::table('gamers')->where('id',$gamerid)->update(['profilepath' => $profilepath]);
+        return;
+      }
 }

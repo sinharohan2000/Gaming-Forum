@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Gamer;
 use App\Models\Post;
 use App\Models\Follower;
+use App\Models\Notificationmodel;
+use App\Models\Rating;
 use Session;
 use DB;
 use App\Http\Controllers\Storage;
@@ -54,12 +56,14 @@ class UserController extends Controller
 
     public function profile(Request $request)
       {
-        $gamername = Session::get('user')[0]['username'];
+        $gamerid = Session::get('user')[0]['id'];
+        $userdetail = Gamer::fetchuser($gamerid);
+
         $posts = Post::fetchposts(Session::get('user')[0]['id']);
         $posts = self::convertToArray($posts);
         for ($i=0; $i < count($posts); $i++) 
         { 
-          $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+          $posts[$i]['rating'] = Rating::fetchavgrating($posts[$i]['id']);
           $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
         }
 
@@ -67,28 +71,28 @@ class UserController extends Controller
 
         $following = count(Follower::fetchfollowing(Session::get('user')[0]['id']));
 
-        return view('user.profile',["gamername" => $gamername,"posts" => $posts, "followers" => $followers, "followings" => $following]);
+        return view('user.profile',["userdetail" => $userdetail,"posts" => $posts, "followers" => $followers, "followings" => $following]);
     }
 
       public function gamerprofile(Request $request)
         {
         $gamerid = base64_decode(base64_decode($request->segment(2)));
-        $gamername = Gamer::fetchgamername($gamerid);
+        $gamerdetail = Gamer::fetchuser($gamerid);
         $isFollowing = Follower::isFollowing($gamerid);
 
         $posts = Post::fetchposts($gamerid);
         for ($i=0; $i < count($posts) ; $i++) { 
           unset($posts[$i]['money']);
+          $posts[$i]['rating'] = Rating::ratingfetch($posts[$i]['id']);
+          $posts[$i]['avgrating'] = Rating::fetchavgrating($posts[$i]['id']);
         }
-        for ($i=0; $i < count($posts); $i++) 
-          $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
 
         $followers = count(Follower::fetchfollowers($gamerid));
 
         $following = count(Follower::fetchfollowing($gamerid));
           
 
-          return view('user.gamerprofile',["gamername" => $gamername,"posts" => $posts, "followers" => $followers, "followings" => $following, "isFollowing" => $isFollowing]); 
+          return view('user.gamerprofile',["gamerdetail" => $gamerdetail,"posts" => $posts, "followers" => $followers, "followings" => $following, "isFollowing" => $isFollowing]); 
       }
 
     public function signup(Request $request)
@@ -232,22 +236,11 @@ class UserController extends Controller
 
       public function follow(Request $request)
       {
-      	$gamername = $request->gamername;
-      	$followerid = Session::get('user')[0]['id'];
-      	$sql = "SELECT id FROM gamers WHERE username ='$gamername'";
-   	 	$result = self::convertToArray(DB::select(DB::raw($sql)));
-   	 	if(count($result) > 0)
-   	 	{
-   	 		$gamerid = $result[0]['id'];
-   	 		DB::table('followers')->insert(
-          ['gamerid' => $gamerid, 'followerid' => $followerid]);
-          return back();
-   	 	}
-   	 	else
-   	 	{
-   	 		$request->session()->flash('fail', 'broken link');
-          return back();
-   	 	}
+         $gamerid = base64_decode(base64_decode($request->input('gamerid')));
+         $var = Follower::follow($gamerid);
+         if($var)
+          Notificationmodel::follownotification($gamerid);
+      	return;
       }
 
       public function update(Request $request)
@@ -262,6 +255,22 @@ class UserController extends Controller
         Gamer::updatepass($request);
         $request->session()->flash('success', 'password updated successfully.');
         return redirect()->to('/profile');
+      }
+
+      public function changeprofile(Request $request)
+      {
+        $extension = $request->photo->extension();
+          if($extension == "png" || $extension == "jpeg" || $extension == "jpg" )
+          {
+            Gamer::changeprofile($request);
+
+            return back();
+          }
+          else
+          {
+              $request->session()->flash('fail', 'invalid file format');
+            return back();
+          }
       }
 
 }

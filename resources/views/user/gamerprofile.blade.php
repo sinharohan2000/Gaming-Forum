@@ -36,7 +36,7 @@
           <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="notification">Notification</a>
+          <a class="nav-link" href="/gamingforum/notification">Notification</a>
         </li>
       </ul>
     </div>
@@ -45,11 +45,16 @@
     <div class="row">
       <div class="col-3" align="center">
         <br>
-        <h3>{{$gamername}}</h3>
-        <h4>Followers</h4>
-        <p align="left">{{$followers}} gamers are following {{$gamername}}</p>
-        <h4>Following</h4>
-        <p>{{$gamername}} is following {{$followings}} gamers.</p>
+        <h3>{{$gamerdetail[0]['username']}}</h3>
+        <img src="{{$gamerdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
+        <h4>Followers   {{$followers}}</h4>
+        <h4>Following   {{$followings}}</h4>
+        @if($isFollowing)
+        <h5>You are a follower</h5>
+        @else
+        <div id="followMessage"></div>
+        <button id="follow" onclick="follow(<?= $gamerdetail[0]['id'] ?>)" class="btn btn-primary btn-sm">Follow</button>
+        @endif
       </div>
       <div class="col-6" align="center">
         <br>
@@ -67,7 +72,8 @@
               <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
               <p class="card-text">{{$post['message']}}</p>
               <p class="card-text">{{$post['tags']}}</p>
-                <p class="card-text">Avrage rating of this post <span id="star">{{$post['rating']}}</span>⭐</p>
+                <p class="card-text">Avgrage rating of this post {{$post['avgrating']}}⭐</p>
+                <p class="card-text">You gave him <span id="star">{{$post['rating']}}</span>⭐</p>
                 <span >Support</span>
                 <input type="number" id="money" name="money" style="width: 100px;height: 30px"/>
                 <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">
@@ -120,7 +126,7 @@
                 "postid": postid
                 },
                 success: function(data) {
-                	
+                	$("#star").html(val);
                    }
         });
     }
@@ -140,6 +146,26 @@
                     var html = "";
                     html += "<h4>Paid successfully </h4>";
                     $("#paid").html(html);
+                   }
+
+        });
+       }
+</script>
+
+<script type="text/javascript">
+  function follow(id){
+        $.ajax({
+                url: "/gamingforum/follow",
+                type: "post",
+                data: {
+                "_token": "{{ csrf_token() }}",
+                "gamerid": btoa(btoa(id))
+                },
+                success: function(data) {
+                	var html = "";
+                    var html = "<h5>You are a follower</h5>";
+                    $("#followMessage").html(html);
+                    document.getElementById("follow").disabled = true;
                    }
 
         });

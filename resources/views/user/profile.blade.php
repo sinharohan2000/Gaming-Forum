@@ -16,7 +16,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="opening-page.html">Pro-Gamers</a>
+    <a class="navbar-brand" href="/gamingforum/home">Pro-Gamers</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -33,10 +33,10 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="home">Home</a>
+          <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="notification">Notification</a>
+          <a class="nav-link" href="/gamingforum/notification">Notification</a>
         </li>
       </ul>
     </div>
@@ -48,15 +48,27 @@
         </div>
         @endif
       </div>
+      <div align="center">
+      @if(Session::has('fail'))
+        <div class="alert alert-danger">
+            {{ Session::get('fail') }}
+        </div>
+        @endif
+      </div>
   <div class="container">
     <div class="row">
       <div class="col-3" align="center">
         <br>
-        <h3>{{$gamername}}</h3>
-        <h4>Followers</h4>
-        <p>You are following {{$followers}} gamers.</p>
-        <h4>Following</h4>
-        <p>{{$followings}} gamers are following you..</p>
+        <h3>{{$userdetail[0]['username']}}</h3>
+        <img src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
+        <form method="post" action="/gamingforum/changeprofile" enctype="multipart/form-data">
+          @csrf
+          <strong>Change Profile Picture</strong>
+          <input type="file" name="photo" id="photo">
+          <input style="width: 100px;height: 30px" value="Upload" class="btn btn-primary btn-sm" type="submit">
+        </form>
+        <h4>Followers   {{$followers}}</h4>
+        <h4>Following   {{$followings}}</h4>
       </div>
       <div class="col-6" align="center">
         <br>

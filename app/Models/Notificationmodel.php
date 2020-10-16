@@ -45,8 +45,16 @@ class Notificationmodel extends Model
     {
     		$sql = "SELECT B.* FROM followers AS A 
             	INNER JOIN notifications AS B 
-            	ON A.gamerid = B.gamerid WHERE A.followerid = $id";
+            	ON A.gamerid = B.gamerid WHERE A.followerid = $id ORDER BY id DESC";
        		$result = DB::select(DB::raw($sql));
         return self::convertToArray($result);
+    }
+
+    public static function follownotification($gamerid)
+    {
+    	$username = Session::get('user')[0]['username'];
+    	$notification = $username." has started following you";
+    	DB::table('notifications')->insert(['gamerid' => $gamerid, 'notification' => $notification]);
+    	return;
     }
 }
