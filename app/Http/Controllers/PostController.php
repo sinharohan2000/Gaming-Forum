@@ -99,8 +99,11 @@ class PostController extends Controller
 
       public function support(Request $request)
       {
-        Notificationmodel::paynotification($request);
+        $gamer = self::convertToArray(DB::table('posts')->where('id',$request->input('postid'))->get());
+        $gamerid = $gamer[0]['gamerid'];
+        Notificationmodel::paynotification($request,$gamerid);
         Post::support($request);
+
         return ;
       }
 }
