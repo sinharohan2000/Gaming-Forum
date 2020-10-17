@@ -34,7 +34,7 @@ Route::POST('/create', [UserController::class, 'signup']);
 Route::POST('/home', [UserController::class, 'login']);
 Route::POST('/recover', [UserController::class, 'recover']);
 Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
-Route::POST('/post',[PostController::class, 'post']);
+Route::POST('/uppost',[PostController::class, 'uppost']);
 Route::get('/test',[PostController::class, 'test']);
 Route::post('follow', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('post/{postid}', [PostController::class, 'getpost'])->middleware('authorize');

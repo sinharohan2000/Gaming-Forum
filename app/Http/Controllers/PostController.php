@@ -36,8 +36,9 @@ class PostController extends Controller
         $var = self::convertToArray($var);
         return view('post.notification',['notifications' => $var]);
     }
-    public function post(Request $request)
+    public function uppost(Request $request)
     {
+        
     	$extension = $request->photo->extension();
           if($extension == "png" || $extension == "jpeg" || $extension == "jpg" || $extension == "mp4")
           {

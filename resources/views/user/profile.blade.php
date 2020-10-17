@@ -60,7 +60,7 @@
       <div class="col-3" align="center">
         <br>
         <h3>{{$userdetail[0]['username']}}</h3>
-        <img src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
+        <img style="height: 250px; width: 250px;" class="rounded-circle" src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
         <form method="post" action="/gamingforum/changeprofile" enctype="multipart/form-data">
           @csrf
           <strong>Change Profile Picture</strong>

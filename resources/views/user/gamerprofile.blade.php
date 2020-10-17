@@ -46,7 +46,7 @@
       <div class="col-3" align="center">
         <br>
         <h3>{{$gamerdetail[0]['username']}}</h3>
-        <img src="{{$gamerdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
+        <img style="height: 250px; width: 250px;" class="rounded-circle" src="{{$gamerdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
         <h4>Followers   {{$followers}}</h4>
         <h4>Following   {{$followings}}</h4>
         @if($isFollowing)

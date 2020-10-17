@@ -90,7 +90,10 @@ class Post extends Model
 
     public static function fetchpostbytag(Request $request)
     {
-       $sql = "SELECT id,gamername,tags FROM posts WHERE tags like '%".$request->input('search')."%'";
+        $tags = "'".$request->input('search')."'";
+       $sql = "SELECT * FROM posts
+        WHERE MATCH tags
+        AGAINST ($tags IN NATURAL LANGUAGE MODE)";
         return self::convertToArray(DB::select(DB::raw($sql)));
     }
 }

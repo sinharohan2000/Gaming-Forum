@@ -8,7 +8,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="{{ asset('/resources/js/bootstrap-tagsinput.js') }}"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
   
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <script type="text/javascript" src="{ { asset('/resources/js/tagsinput.js') }}"></script>
@@ -55,17 +56,18 @@
       <div class="col-3" align="center">
         <br>
         <h3>{{$userdetail[0]['username']}}</h3>
-        <img src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
+        <img style="height: 250px; width: 250px;" class="rounded-circle" src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
       </div>
       <div class="col-6" align="center">
         <br>
         <div class="col-md">
-          <form action="post" method="POST" enctype="multipart/form-data">
+          <form action="uppost" method="POST" enctype="multipart/form-data">
+            @csrf
           <h4>What's on your mind?</h4>
           <textarea name="textarea" placeholder="Write the way you feel" rows="2" id="textarea"></textarea>
           <br>
            Tags:</br>
-          <input type="text" class="form-control" name="tags" data-role="tagsinput" id="tags"></br>
+          <input type="text" name="tags" data-role="tagsinput" id="tags"></br>
             Select image to upload:
             <br>
             <input type="file" name="photo" id="photo">
@@ -114,7 +116,10 @@
         </div>
         <br>
         </div>
-        <div class="col-3" id="userpost"><br><br><br></div>
+        <div class="col-3">
+          <div id="user"></div>
+          <div id="post"></div>
+        </div>
       </div>
       <br><br><br><br>
     </div>
@@ -186,8 +191,11 @@
                 "search": search
                 },
                 success: function(data) {
-                       var html = "hi";
-                       $("#userpost").html(html);
+                  var html = "<=?>"
+                       console.log(data['posts'].length);
+                       $("#user").html(html);
+                       var html1 = " bye";
+                        $("#post").html(html1);
                    }
         });
   }
