@@ -3,14 +3,12 @@
 <head>
 	<title>gaming forum</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script type="text/javascript" src="{{ asset('/resources/js/bootstrap-tagsinput.js') }}"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link href="{{ asset('/resources/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('/resources/css/styles.css') }}">
+        <script type="text/javascript" src="{ { asset('/resources/js/tagsinput.js') }}"></script>
+  <link href="{{ asset('/resources/css/tagsinput.css') }}" rel="stylesheet">
   <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Monoton&family=Raleway:wght@500&display=swap" rel="stylesheet">
 

@@ -53,12 +53,12 @@ class PostController extends Controller
           }
     }
 
-    public function comment(Request $request)
+    public function getpost(Request $request)
     {
     	$postid = base64_decode(base64_decode($request->segment(2)));
     	$comments = Comment::fetchcomment($postid);
     	$post = Post::fetchpost($postid);
-    	return view('post.comment',["comments" => $comments, "post" => $post]);
+    	return view('post.post',["comments" => $comments, "post" => $post]);
     }
 
     public function commentpost(Request $request)
@@ -101,7 +101,8 @@ class PostController extends Controller
       {
         $gamer = self::convertToArray(DB::table('posts')->where('id',$request->input('postid'))->get());
         $gamerid = $gamer[0]['gamerid'];
-        Notificationmodel::paynotification($request,$gamerid);
+        $gamername = Gamer::fetchgamername($gamerid);
+        Notificationmodel::paynotification($request,$gamerid,$gamername);
         Post::support($request);
 
         return ;

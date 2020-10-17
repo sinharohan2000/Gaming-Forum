@@ -46,7 +46,10 @@ class Rating extends Model
         for ($i=0; $i < count($result) ; $i++) { 
             $var += $result[$i]['rating'];
         }
-        $var = $var/count($result);
+        if(count($result) != 0)
+        	$var = $var/count($result);
+        else
+        	$var = 0;
         return $var;
     }
     

@@ -19,6 +19,26 @@ class UserController extends Controller
       {
     	 echo "hi";
       }
+      public function home1()
+      {
+       if(Session::has('user'))
+          {
+            $userdetail = Gamer::fetchuser(Session::get('user')[0]['id']);
+            $sql = "SELECT B.* FROM followers AS A 
+            INNER JOIN posts AS B 
+            ON A.gamerid = B.gamerid  WHERE A.followerid = ".Session::get('user')[0]['id'];
+            $result = DB::select(DB::raw($sql));
+             $result = self::convertToArray($result);
+            for ($i=0; $i < count($result); $i++) { 
+              $result[$i]['avgrating'] = Rating::fetchavgrating($result[$i]['id']);
+              $result[$i]['rating'] = Rating::ratingfetch($result[$i]['id']);
+
+            }
+              return view('user.home1',["userdetail" => $userdetail,"posts" => $result]);
+            }
+              else
+            return redirect()->to('/');
+      }
 
     public static function convertToArray($array)
       {
@@ -37,7 +57,7 @@ class UserController extends Controller
             $posts = Post::fetchposts(Session::get('user')[0]['id']);
             $posts = self::convertToArray($posts);
             for ($i=0; $i < count($posts); $i++) { 
-              $posts[$i]['rating'] = Post::fetchrating($posts[$i]['id']);
+              $posts[$i]['rating'] = Rating::fetchavgrating($posts[$i]['id']);
               $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
             }
             $sql = "SELECT B.* FROM followers AS A 
@@ -46,7 +66,7 @@ class UserController extends Controller
             $result = DB::select(DB::raw($sql));
       			 $result = self::convertToArray($result);
             for ($i=0; $i < count($result); $i++) { 
-              $result[$i]['rating'] = Post::fetchrating($result[$i]['id']);
+              $result[$i]['rating'] = Rating::fetchavgrating($result[$i]['id']);
             }
               return view('user.home',["posts" => $result,"sposts" => $posts]);
             }
@@ -77,22 +97,27 @@ class UserController extends Controller
       public function gamerprofile(Request $request)
         {
         $gamerid = base64_decode(base64_decode($request->segment(2)));
-        $gamerdetail = Gamer::fetchuser($gamerid);
-        $isFollowing = Follower::isFollowing($gamerid);
+        if($gamerid == Session::get('user')[0]['id'])
+          return redirect()->to('/profile');
+        else
+        {
+          $gamerdetail = Gamer::fetchuser($gamerid);
+          $isFollowing = Follower::isFollowing($gamerid);
 
-        $posts = Post::fetchposts($gamerid);
-        for ($i=0; $i < count($posts) ; $i++) { 
-          unset($posts[$i]['money']);
-          $posts[$i]['rating'] = Rating::ratingfetch($posts[$i]['id']);
-          $posts[$i]['avgrating'] = Rating::fetchavgrating($posts[$i]['id']);
+          $posts = Post::fetchposts($gamerid);
+          for ($i=0; $i < count($posts) ; $i++) { 
+            unset($posts[$i]['money']);
+            $posts[$i]['rating'] = Rating::ratingfetch($posts[$i]['id']);
+            $posts[$i]['avgrating'] = Rating::fetchavgrating($posts[$i]['id']);
+          }
+
+          $followers = count(Follower::fetchfollowers($gamerid));
+
+          $following = count(Follower::fetchfollowing($gamerid));
+            
+
+            return view('user.gamerprofile',["gamerdetail" => $gamerdetail,"posts" => $posts, "followers" => $followers, "followings" => $following, "isFollowing" => $isFollowing]); 
         }
-
-        $followers = count(Follower::fetchfollowers($gamerid));
-
-        $following = count(Follower::fetchfollowing($gamerid));
-          
-
-          return view('user.gamerprofile',["gamerdetail" => $gamerdetail,"posts" => $posts, "followers" => $followers, "followings" => $following, "isFollowing" => $isFollowing]); 
       }
 
     public function signup(Request $request)

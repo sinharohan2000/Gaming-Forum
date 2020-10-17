@@ -25,31 +25,46 @@ class Notificationmodel extends Model
     }
     public static function post($id)
     {
-    	$notification = Session::get('user')[0]['username']." has posted something.";
+    	$username = Session::get('user')[0]['username'];
+    	$userid = Session::get('user')[0]['id'];
+    	$notification = "<a href = '/gamingforum/gamerprofile/".base64_encode(base64_encode($userid))."'>".$username."</a> has posted something.";
     	DB::table('notifications')->insert(
-    	['notification' => $notification, 'gamerid' => $id]);	
+    	['notification' => $notification, 'gamerid' => $userid, 'access' => 0]);
      	return;
     }
 
-    public static function paynotification(Request $request,$gamerid)
+    public static function paynotification(Request $request,$gamerid,$gamername)
     {
     	$money = $request->input('money');
-    	$notification = Session::get('user')[0]['username']." has paid you ". $money;
+    	$username = Session::get('user')[0]['username'];
+    	$userid = Session::get('user')[0]['id'];
+    	$notification = "<a href = '/gamingforum/gamerprofile/".base64_encode(base64_encode($userid))."'>".$username." </a> has paid you ". $money." for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
+
+    	$notification1 = 'you have paid '.$money." <a href='/gamingforum/gamerprofile/".base64_encode(base64_encode($gamerid))."'>". $gamername."</a> for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
+
     	DB::table('notifications')->insert(
-    	['notification' => $notification, 'gamerid' => $gamerid]);	
+    	['notification' => $notification, 'gamerid' => $gamerid]);
+    	DB::table('notifications')->insert(
+    	['notification' => $notification1, 'gamerid' => Session::get('user')[0]['id']]);	
      	return;
     }
 
     public static function fetchnotification($id)
     {
-    		$result = DB::table('notifications')->where('gamerid',$id)->get();
-        return self::convertToArray($result);
+    		$result = self::convertToArray(DB::table('notifications')->where('gamerid',$id)->where('access',1)->get());
+    		$sql = "SELECT A.* FROM notifications AS A 
+            INNER JOIN followers AS B 
+            ON A.gamerid = B.gamerid AND A.access = 0  WHERE B.followerid = $id";
+            $result1 = self::convertToArray(DB::select(DB::raw($sql)));
+            $result = array_merge($result,$result1);
+        return $result;
     }
 
     public static function follownotification($gamerid)
     {
     	$username = Session::get('user')[0]['username'];
-    	$notification = $username." has started following you";
+    	$userid = Session::get('user')[0]['id'];
+    	$notification = "<a href =/gamingforum/gamerprofile/".base64_encode(base64_encode($userid))."'>".$username." </a> has started following you";
     	DB::table('notifications')->insert(['gamerid' => $gamerid, 'notification' => $notification]);
     	return;
     }

@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
-Route::get('/a', [UserController::class,'index']);
+Route::get('/a', [UserController::class,'home1']);
 Route::get('/b', [PostController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
 Route::view('/signin', 'user.signin')->middleware('usercheck');
@@ -38,7 +38,7 @@ Route::POST('/post',[PostController::class, 'post']);
 Route::get('/test',[PostController::class, 'test']);
 Route::POST('/searchGamer',[UserController::class,'searchGamer'])->middleware('authorize');
 Route::post('follow', [UserController::class, 'follow'])->middleware('authorize');
-Route::get('comment/{postid}', [PostController::class, 'comment'])->middleware('authorize');
+Route::get('post/{postid}', [PostController::class, 'getpost'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
 Route::post('/rating' , [PostController::class, 'rating'])->middleware('authorize');
 Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware('authorize');

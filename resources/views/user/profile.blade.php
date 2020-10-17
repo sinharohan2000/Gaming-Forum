@@ -89,21 +89,23 @@
                <p class="card-text"> Earned money from this post {{$post['money']}} </p>
                 <p class="card-text">Avrage rating of this post {{$post['rating']}}⭐</p>
               <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
-              <a href="comment/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
+              <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
           </div>
+          <br><br>
           @endforeach
         @else
             <div class="card-body">
               <p class="card-text">No Post available.</p>
         @endif
-      </div>
-      <br><br><br><br>
-      <div class="col-3">
-        <h2></h2>
-      </div>
+      <br><br>
     </div>
   </div>
-  <br><br>
+</div>
+</div>
+  </div>
+</div>
+</div>
+
   <div class="bottom-container">
     <center>
       <a class="footer-link" href="https://www.linkedin.com/"><img class="facebook" src="{{ asset('/resources/images/linkedin.png') }}" alt="linkedin-logo"></a>
@@ -113,6 +115,7 @@
     <br>
     <p class="end">© 2020 eCode.js</p>
   </div>
+</body>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 

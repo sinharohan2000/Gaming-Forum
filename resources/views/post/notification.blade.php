@@ -50,9 +50,11 @@
   </nav>
 
 <div class="jumbotron">
-	@foreach ($notifications as $notification)
-    <p>{{ $notification['notification'] }}</p>
-@endforeach
+  <?php
+	foreach ($notifications as $notification){
+    ?>
+    <p> <?= $notification['notification'];?> </p><?php }
+?>
 </div>
  <div class="bottom-container">
     <center>

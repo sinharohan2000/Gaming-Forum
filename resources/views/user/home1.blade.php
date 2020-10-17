@@ -7,9 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{ asset('/resources/js/bootstrap-tagsinput.js') }}"></script>
+  
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script type="text/javascript" src="{ { asset('/resources/js/tagsinput.js') }}"></script>
+  <link href="{{ asset('/resources/css/tagsinput.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('/resources/css/styles.css') }}">
-  <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
+  <link rel="icon" href="favicon (2).ico">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Monoton&family=Raleway:wght@500&display=swap" rel="stylesheet">
 
 </head>
@@ -28,37 +33,45 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Update Password</a>
-            <a class="dropdown-item" href="/gamingforum/logout">Log OUt</a>
+            <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/notification">Notification</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/profile">Profile</a>
+        </li>
       </ul>
+        <div class="input-group" style="text-align: right; display: inline-block;">
+          <input  type="search" placeholder="Search" aria-label="Search" id = "search" style="height: 38px; width: 180px;">
+          <button class="btn btn-outline-success my-2 my-sm-0 mr-sm-3 " onclick="search()">Search Gamers/Tags</button>
+        </div>
     </div>
   </nav>
   <div class="container">
     <div class="row">
       <div class="col-3" align="center">
         <br>
-        <h3>{{$gamerdetail[0]['username']}}</h3>
-        <img src="{{$gamerdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
-        <h4>Followers   {{$followers}}</h4>
-        <h4>Following   {{$followings}}</h4>
-        @if($isFollowing)
-        <h5>You are a follower</h5>
-        @else
-        <div id="followMessage"></div>
-        <button id="follow" onclick="follow(<?= $gamerdetail[0]['id'] ?>)" class="btn btn-primary btn-sm">Follow</button>
-        @endif
+        <h3>{{$userdetail[0]['username']}}</h3>
+        <img src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
       </div>
       <div class="col-6" align="center">
         <br>
         <div class="col-md">
+          <form action="post" method="POST" enctype="multipart/form-data">
+          <h4>What's on your mind?</h4>
+          <textarea name="textarea" placeholder="Write the way you feel" rows="2" id="textarea"></textarea>
+          <br>
+           Tags:</br>
+          <input type="text" class="form-control" name="tags" data-role="tagsinput" id="tags"></br>
+            Select image to upload:
+            <br>
+            <input type="file" name="photo" id="photo">
+          </br>
+            <input type="submit" value="Upload" name="submit">
+          </form>
         </div>
         <br><br>
         <h2 align="center">Feed</h2>
@@ -96,12 +109,15 @@
             <div class="card-body">
               <p class="card-text">No Post available.</p>
         @endif
+        </div>
+        <br>
+        </div>
+        <br>
+        </div>
       </div>
       <br><br><br><br>
     </div>
   </div>
-</div>
-</div>
   <br><br>
   <div class="bottom-container">
     <center>
@@ -112,10 +128,16 @@
     <br>
     <p class="end">© 2020 eCode.js</p>
   </div>
-  
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  <script type="text/javascript">
+
+</body>
+<script type="text/javascript">
+  $('#tags').tagsinput({
+   trimValue: true
+    });
+</script>
+<script type="text/javascript">
     function rating(val,postid){
       $.ajax({
                 url: "/gamingforum/rating",
@@ -126,7 +148,7 @@
                 "postid": postid
                 },
                 success: function(data) {
-                	$("#star"+postid).text(val);
+                  $("#star"+postid).text(val);
                    }
         });
     }
@@ -151,27 +173,22 @@
         });
        }
 </script>
-
 <script type="text/javascript">
-  function follow(id){
-        $.ajax({
-                url: "/gamingforum/follow",
+
+  function search(){
+    var search = $('#search').val();
+    $.ajax({
+                url: "/gamingforum/search",
                 type: "post",
                 data: {
                 "_token": "{{ csrf_token() }}",
-                "gamerid": btoa(btoa(id))
+                "search": search
                 },
                 success: function(data) {
-                	var html = "";
-                    var html = "<h5>You are a follower</h5>";
-                    $("#followMessage").html(html);
-                    document.getElementById("follow").disabled = true;
+                   
+                       
                    }
-
         });
-       }
+  }
 </script>
-
-</body>
-
 </html>
