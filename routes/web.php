@@ -36,7 +36,6 @@ Route::POST('/recover', [UserController::class, 'recover']);
 Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
 Route::POST('/post',[PostController::class, 'post']);
 Route::get('/test',[PostController::class, 'test']);
-Route::POST('/searchGamer',[UserController::class,'searchGamer'])->middleware('authorize');
 Route::post('follow', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('post/{postid}', [PostController::class, 'getpost'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');
@@ -44,7 +43,7 @@ Route::post('/rating' , [PostController::class, 'rating'])->middleware('authoriz
 Route::post('/ratingfetch' , [PostController::class, 'ratingfetch'])->middleware('authorize');
 Route::post('/support' , [PostController::class, 'support'])->middleware('authorize');
 Route::get('/notification' ,[Notification::class,'fetchnotification'])->middleware('authorize');
-Route::POST('/searchPosts',[PostController::class,'searchPosts']);
+Route::POST('/search',[PostController::class,'search']);
 Route::get('/profile',[UserController::class,'profile'])->middleware('authorize');
 Route::get('/gamerprofile/{id}',[UserController::class,'gamerprofile'])->middleware('authorize');
 Route::get('/update',function(){

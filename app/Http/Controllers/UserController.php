@@ -242,23 +242,6 @@ class UserController extends Controller
           return redirect()->to('/signin');
       }
 
-      public function searchGamer(Request $request)
-      {
-      	$gamername = $request->input('search');
-      	$selfname = Session::get('user')[0]['username'];
-      	$sql = "SELECT username,id FROM gamers WHERE username ='$gamername' AND username != '$selfname'";
-   	 	  $result = self::convertToArray(DB::select(DB::raw($sql)));
-   	 	  if(count($result) > 0)
-   	 	  {
-   	 		$gamername = $result[0]['username'];
-        $id = $result[0]['id'];
-   	 	  $arr = array($gamername,$id);
-   	 	  return $arr;
-   	 	  }
-   	 	  else
-   	 	  return array("NULL",-1);
-      }
-
       public function follow(Request $request)
       {
          $gamerid = base64_decode(base64_decode($request->input('gamerid')));

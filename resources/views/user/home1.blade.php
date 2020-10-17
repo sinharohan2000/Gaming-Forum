@@ -114,6 +114,7 @@
         </div>
         <br>
         </div>
+        <div class="col-3" id="userpost"><br><br><br></div>
       </div>
       <br><br><br><br>
     </div>
@@ -185,8 +186,8 @@
                 "search": search
                 },
                 success: function(data) {
-                   
-                       
+                       var html = "hi";
+                       $("#userpost").html(html);
                    }
         });
   }

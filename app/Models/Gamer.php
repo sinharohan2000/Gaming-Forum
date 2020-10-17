@@ -153,6 +153,11 @@ class Gamer extends Model
         return self::convertToArray(DB::table('gamers')->where('id',$id)->select('username','profilepath','id')->get());
       }
 
+      public static function fetchuserbyname($name)
+      {
+        return self::convertToArray(DB::table('gamers')->where('username',$name)->select('username','id')->get());
+      }
+
       public static function changeprofile(Request $request)
       {
         $gamerid = Session::get('user')[0]['id'];

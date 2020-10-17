@@ -88,11 +88,15 @@ class PostController extends Controller
     	return Rating::ratingfetch($request->input('postid'));
     }
 
-    public function searchPosts(Request $request)
+    public function search(Request $request)
       {
         $search=$request->input('search');
-        $sql = "SELECT * FROM posts WHERE tags like '%".$search."%'";
-        $result = DB::select(DB::raw($sql));
+        $gamername = Gamer::fetchuserbyname($request->input('search'));
+        
+        $posts = Post::fetchpostbytag($request);
+        $result = array();
+        $result['gamername'] = $gamername;
+        $result['posts'] = $posts;
         return $result;
 
       }

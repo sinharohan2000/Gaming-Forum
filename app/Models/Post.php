@@ -87,4 +87,10 @@ class Post extends Model
         $result = self::convertToArray( DB::table('posts')->where('id',$postid)->get());
         return $result[0]['money'];
     }
+
+    public static function fetchpostbytag(Request $request)
+    {
+       $sql = "SELECT id,gamername,tags FROM posts WHERE tags like '%".$request->input('search')."%'";
+        return self::convertToArray(DB::select(DB::raw($sql)));
+    }
 }
