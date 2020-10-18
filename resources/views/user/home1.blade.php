@@ -51,7 +51,7 @@
         </div>
     </div>
   </nav>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-3" align="center">
         <br>
@@ -106,14 +106,13 @@
               <a class="dropdown-item" href="javascript:void(0)" onclick="rating(5,<?= $post['id'];?>)">⭐⭐⭐⭐⭐</a>
             </div>
           </div>
+        </div>
           @endforeach
         @else
             <div class="card-body">
               <p class="card-text">No Post available.</p>
+             </div>  
         @endif
-        </div>
-        <br>
-        </div>
         <br>
         </div>
         <div class="col-3">
@@ -182,6 +181,10 @@
 <script type="text/javascript">
 
   function search(){
+      $("#user").html();
+      $("#post").html();
+      var html = "";
+      var html1 = "";
     var search = $('#search').val();
     $.ajax({
                 url: "/gamingforum/search",
@@ -191,11 +194,30 @@
                 "search": search
                 },
                 success: function(data) {
-                  var html = "<=?>"
-                       console.log(data['posts'].length);
+                  console.log(data);
+                  if(data['gamername'].length == 0){
+                     html = "<br><br><p> No User Found</p>";
+                  } else{
+                    console.log("neeraj");
+                         html = "<br><br><p>User found</p>"
+                        var link = btoa(btoa(data['gamername'][0]['id']));
+                        html += data['gamername'][0]['username']+" Go to <a href='/gamingforum/gamerprofile/"+link+"'>Profile</a><br><br>";
+                }
+                  
+                  if(data['posts'].length == 0){
+                        html1 += "<br><br><p> No Post Found with this tag</p><br>";
+                  } else{
+                        var i;
+                        html1 += "tag "+search+" is found in following posts.<br><br>";
+                        for (i = 0; i < data['posts'].length; i++) {
+                          var link = btoa(btoa(data['posts'][i]['id']));
+                              html1 += data['posts'][i]['gamername']+" Go to the <a href='/gamingforum/post/"+link+"'>Post</a><br>";
+                          }
+                      }
+
                        $("#user").html(html);
-                       var html1 = " bye";
-                        $("#post").html(html1);
+                       $("#post").html(html1);
+                       
                    }
         });
   }

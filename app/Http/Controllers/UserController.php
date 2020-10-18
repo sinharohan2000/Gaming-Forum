@@ -19,7 +19,7 @@ class UserController extends Controller
       {
     	 echo "hi";
       }
-      public function home1()
+      public function home()
       {
        if(Session::has('user'))
           {
@@ -50,7 +50,7 @@ class UserController extends Controller
         return $result;
       }
 
-    public function home()
+    public function home1()
       {
         if(Session::has('user'))
           {
