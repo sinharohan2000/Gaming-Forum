@@ -6,11 +6,9 @@
   <title>Comment</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
  <link rel="stylesheet" href="{{ asset('/resources/css/styles.css') }}">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
+   <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Monoton&family=Raleway:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -79,16 +77,18 @@
           <form id="commentpost" method="post">
             @csrf
             <div class="card-body" align="center">
-            <textarea name="name" rows="2" cols="40" placeholder="Write A comment"></textarea>
+            <textarea name="comment" rows="2" cols="40" placeholder="Write A comment"></textarea>
+            <input type="hidden" value="{{$post[0]['id']}}" name="postid">
             <input  class="btn btn-primary" type="login" value="Comment" onclick="comment11()">
           </div>   
         </form>
         <div id=comments>
-          </div>
+          
                 @foreach ($comments as $comment)
                 <h2>{{$comment->gamername}}</h2>
                 <p>{{$comment->comment}}</p>
                 @endforeach
+                </div>
       </div>
    </div>
  </div>
@@ -105,4 +105,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
  </div>
 </body>
+<script type="text/javascript">
+  function comment11()
+  {
+    var sendData = $("#commentpost").serialize();
+        $.ajax({
+                url: "/gamingforum/commentpost",
+                type: "post",
+                data: sendData,
+                success: function(data) {
+                  console.log(sendData);
+                   var html = "";
+                   html += "<h2>"+data[0]+"</h2>"+"<p>"+data[1]+"</p>";
+                   $("#comments").prepend(html);
+                   }
+        });
+  }
+</script>
 </html>
