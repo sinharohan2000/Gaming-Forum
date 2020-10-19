@@ -85,8 +85,8 @@
         <div id=comments>
           
                 @foreach ($comments as $comment)
-                <h2>{{$comment->gamername}}</h2>
-                <p>{{$comment->comment}}</p>
+                <strong style="float: left;">{{$comment->gamername}}  </strong>
+                <div align="left"><p>{{$comment->comment}}</p></div>
                 @endforeach
                 </div>
       </div>
@@ -114,10 +114,13 @@
                 type: "post",
                 data: sendData,
                 success: function(data) {
-                  console.log(sendData);
-                   var html = "";
-                   html += "<h2>"+data[0]+"</h2>"+"<p>"+data[1]+"</p>";
-                   $("#comments").prepend(html);
+                  if(data != 0)
+                  {
+                     var html = "";
+                     html += "<strong>"+data[0]+"</strong>"+"<p>"+data[1]+"</p>";
+                     $("#comments").prepend(html);
+                  }
+                  
                    }
         });
   }

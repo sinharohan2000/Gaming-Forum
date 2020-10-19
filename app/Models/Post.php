@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Storage;
+use Config;
 
 class Post extends Model
 {
@@ -30,7 +31,7 @@ class Post extends Model
     	$time = time();
 		$name = $time . "." . Session::get('user')[0]['id'];
 		$path = $request->photo->storeAs('images', $name, 's3');
-		$filePath = "https://gamingtime.s3.ap-south-1.amazonaws.com/images/".$name;
+		$filePath = "https://".Config::get('app.AWS_BUCKET').".s3.".Config::get('app.AWS_DEFAULT_REGION').".amazonaws.com/images/".$name;
 		DB::table('posts')->insert(
     	['message' => $message, 'gamername' => Session::get('user')[0]['username'],'tags' => $tags, 'postpath'=> $filePath,'gamerid'=>Session::get('user')[0]['id']]
      	);	

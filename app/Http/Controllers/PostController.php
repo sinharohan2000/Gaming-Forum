@@ -17,7 +17,8 @@ class PostController extends Controller
 {
     public function index()
     {
-    	echo "bye";
+    	$string = env('AWS_ACCESS_KEY_ID');
+       var_dump($string);
     }
     public static function convertToArray($array)
     {
@@ -83,7 +84,7 @@ class PostController extends Controller
     		return $arr;
     	}
     	else
-    		return NULL;
+    		return 0;
     }
 
     public function rating(Request $request)

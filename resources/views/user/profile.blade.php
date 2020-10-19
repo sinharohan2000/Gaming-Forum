@@ -72,9 +72,7 @@
       </div>
       <div class="col-6" align="center">
         <br>
-        <div class="col-md">
-        </div>
-        <br><br>
+        <br>
         <h2 align="center">Feed</h2>
         <hr class="dotted">
         <br>
@@ -82,28 +80,28 @@
           @foreach ($posts as $post)
              <div class="card post" style="width: 40rem;">
             
-            <div class="card-body">
-              <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
-              <p class="card-text">{{$post['message']}}</p>
-              <p class="card-text">{{$post['tags']}}</p>
-               <p class="card-text"> Earned money from this post {{$post['money']}} </p>
-                <p class="card-text">Avrage rating of this post {{$post['rating']}}⭐</p>
-              <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
-              <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
-          </div>
-          <br><br>
+              <div class="card-body">
+                <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
+                <p class="card-text">{{$post['message']}}</p>
+                <p class="card-text">{{$post['tags']}}</p>
+                 <p class="card-text"> Earned money from this post {{$post['money']}} </p>
+                  <p class="card-text">Avrage rating of this post {{$post['rating']}}⭐</p>
+                <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
+                <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
+              </div>
+              <br><br>
+              </div>
+          
           @endforeach
+          <br><br>
         @else
             <div class="card-body">
               <p class="card-text">No Post available.</p>
+            </div>
         @endif
-      <br><br>
-    </div>
+        <br><br>
+     </div>
   </div>
-</div>
-</div>
-  </div>
-</div>
 </div>
 
   <div class="bottom-container">
