@@ -57,9 +57,19 @@ class PostController extends Controller
     public function getpost(Request $request)
     {
     	$postid = base64_decode(base64_decode($request->segment(2)));
-    	$comments = Comment::fetchcomment($postid);
-    	$post = Post::fetchpost($postid);
-    	return view('post.post',["comments" => $comments, "post" => $post]);
+        $post = Post::fetchpost($postid);
+        if(count($post) > 0)
+            {
+            unset($post[0]['money']);
+            $post[0]['avgrating'] = Rating::fetchavgrating($post[0]['id']);
+            $userdetail = Gamer::fetchuser($post[0]['gamerid']);
+        	$comments = Comment::fetchcomment($postid);
+        	return view('post.post',["comments" => $comments, "post" => $post, "userdetail" => $userdetail]);
+            }
+        else
+        {
+            return view('error');
+        }
     }
 
     public function commentpost(Request $request)

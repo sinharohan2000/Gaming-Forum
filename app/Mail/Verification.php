@@ -41,4 +41,12 @@ class Verification extends Mailable
         ->subject('recover password');
         });
     }
+
+    public static function signupusinggmail($email,$password,$username)
+    {
+        Mail::send('emails.signup',['password'=>$password, 'username'=>$username], function($message) use ( $email) {
+        $message->to($email)
+        ->subject('Welcome to Gaming forum');
+        });
+    }
 }

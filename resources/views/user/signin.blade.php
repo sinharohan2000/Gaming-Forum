@@ -26,23 +26,7 @@
         <li class="nav-item active">
           <a class="nav-link" href="welcome">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a><!-- TODO: Add Link -->
-        </li>
+        
       </ul>
     </div>
   </nav>
@@ -91,7 +75,9 @@
         <center><input  class="btn btn-primary" type="submit" value="Login"></center>
       </form>
     <center>
-      Don't have an account? <a href="signup">Sign Up </a>
+      Don't have an account? <a href="signup">Sign Up </a><br>
+      Login using gmail <a href="redirect">Login</a>
+
       <br>
       <a href="forget">Forgot your password? </a>
     </center>

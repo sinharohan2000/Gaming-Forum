@@ -40,7 +40,7 @@ class Post extends Model
      public static function fetchpost($postid)
     {
     	$result = DB::table('posts')->where('id' , $postid)->orderby('id','desc')->get();
-    	return $result;
+    	return self::convertToArray($result);
     }
 
     public static function fetchposts($gamerid)

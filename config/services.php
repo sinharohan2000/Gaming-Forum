@@ -29,5 +29,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'google' => [
+        'client_id' =>'392064498178-h5hq7eej4nostjpopkoam3tbtg91iomd.apps.googleusercontent.com',
+        'client_secret' => '26JyTWh1hzhZpHO0DVZFdwpb',
+        'redirect' => 'http://localhost/gamingforum/callback'
+    ],
 
 ];

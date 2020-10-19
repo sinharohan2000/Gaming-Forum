@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Notification;
+use App\Http\Controllers\GoogleLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +52,8 @@ Route::get('/update',function(){
 })->middleware('authorize');
 Route::post('/update',[UserController::class,'update'])->middleware('authorize');
 Route::post('/changeprofile',[UserController::class,'changeprofile'])->middleware('authorize');
+Route::get('/redirect', [GoogleLoginController::class,'redirect']);
+Route::get('/callback', [GoogleLoginController::class,'callback']);
 Route::fallback(function () {
     return view('error');
 });
