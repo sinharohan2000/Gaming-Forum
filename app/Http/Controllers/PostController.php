@@ -17,9 +17,7 @@ class PostController extends Controller
 {
     public function index()
     {
-    	$string = env('AWS_ACCESS_KEY_ID');
-       var_dump($string);
-    }
+    	echo "hi";    }
     public static function convertToArray($array)
     {
          $result = array();
@@ -39,20 +37,28 @@ class PostController extends Controller
     }
     public function uppost(Request $request)
     {
-        
-    	$extension = $request->photo->extension();
-          if($extension == "png" || $extension == "jpeg" || $extension == "jpg" || $extension == "mp4")
-          {
-          	Post::post($request);
-            Notificationmodel::post(Session::get('user')[0]['id']);
 
-          	return redirect('/home');
-          }
-          else
-          {
-          		$request->session()->flash('fail', 'invalid file format');
-     	 	    return back();
-          }
+        if($request->has('photo'))
+        {
+        	$extension = $request->photo->extension();
+              if($extension == "png" || $extension == "jpeg" || $extension == "jpg" || $extension == "mp4")
+              {
+              	Post::post($request);
+                Notificationmodel::post(Session::get('user')[0]['id']);
+
+              	return redirect('/home');
+              }
+              else
+              {
+              		$request->session()->flash('fail', 'invalid file format');
+         	 	    return back();
+              }
+        }
+        else
+        {
+            $request->session()->flash('fail', 'failed to upload');
+            return back();
+        }
     }
 
     public function getpost(Request $request)

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use DB;
@@ -57,7 +58,9 @@ class Notificationmodel extends Model
             ON A.gamerid = B.gamerid AND A.access = 0  WHERE B.followerid = $id";
             $result1 = self::convertToArray(DB::select(DB::raw($sql)));
             $result = array_merge($result,$result1);
-        return $result;
+            $collection = collect($result);
+             $sorted = self::convertToArray($collection->sortByDesc('id'));   
+        return $sorted;
     }
 
     public static function follownotification($gamerid)

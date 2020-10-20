@@ -168,4 +168,17 @@ class Gamer extends Model
         DB::table('gamers')->where('id',$gamerid)->update(['profilepath' => $profilepath]);
         return;
       }
+
+      public static function updateusername(Request $request)
+      {
+        $username = $request->input('username');
+        $checkusername = self::convertToArray(DB::table('gamers')->where('username',$username)->get());
+        if(count($checkusername) == 0)
+        {
+          DB::table('gamers')->where('id',Session::get('user')[0]['id'])->update(['username' => $username]);
+          return 1;
+        }
+        else
+          return 0;   
+      }
 }

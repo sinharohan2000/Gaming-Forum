@@ -79,7 +79,7 @@
                 <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">
                 <span id="paid" align="right" style="float: right"></span>
               <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
-              <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
+              <a href="/gamingforum/post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
               <a class="btn btn-primary dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Rate
             </a>

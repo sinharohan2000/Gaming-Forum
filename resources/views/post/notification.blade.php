@@ -51,9 +51,11 @@
 
 <div class="jumbotron">
   <?php
+  if(count($notifications) > 0){
 	foreach ($notifications as $notification){
     ?>
     <p> <?= $notification['notification'];?> </p><?php }
+  }else{echo "no notification availabe.";}
 ?>
 </div>
  <div class="bottom-container">

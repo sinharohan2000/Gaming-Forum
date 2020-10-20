@@ -13,7 +13,7 @@ class Comment extends Model
 
     public static function fetchcomment($id)
     {
-    	$result = DB::table('comments')->where('postid', $id)->get();
+    	$result = DB::table('comments')->where('postid', $id)->orderBy('id','DESC')->get();
     	return $result;
     }
 

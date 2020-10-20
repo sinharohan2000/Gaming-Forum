@@ -35,6 +35,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
             <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
         </li>
@@ -51,6 +52,14 @@
         </div>
     </div>
   </nav>
+  <div class="container" class="container">
+    @if(Session::has('fail'))
+        <div class="alert alert-danger" align="center">
+            {{ Session::get('fail') }}
+            @endif
+        </div>
+  </div>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-3" align="center">
@@ -92,7 +101,7 @@
                 <span >Support</span>
                 <input type="number" id="money" name="money" style="width: 100px;height: 30px"/>
                 <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">
-                <span id="paid" align="right" style="float: right"></span>
+                <span id="paid<?=$post['id'] ?>" align="right" style="float: right"></span>
               <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
               <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
               <a class="btn btn-primary dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -172,7 +181,7 @@
                 success: function(data) {
                     var html = "";
                     html += "<h4>Paid successfully </h4>";
-                    $("#paid").html(html);
+                    $("#paid"+postid).html(html);
                    }
 
         });

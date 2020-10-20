@@ -20,8 +20,7 @@ class Notification extends Controller
 
     public function fetchnotification()
     {
-        $var = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);
-        $var = self::convertToArray($var);
-        return view('post.notification',['notifications' => $var]);
+        $notification = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);
+	     return view('post.notification',['notifications' => $notification]);
     }
 }

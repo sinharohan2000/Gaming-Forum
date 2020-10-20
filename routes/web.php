@@ -54,6 +54,10 @@ Route::post('/update',[UserController::class,'update'])->middleware('authorize')
 Route::post('/changeprofile',[UserController::class,'changeprofile'])->middleware('authorize');
 Route::get('/redirect', [GoogleLoginController::class,'redirect']);
 Route::get('/callback', [GoogleLoginController::class,'callback']);
+Route::get('/updateusername',function(){
+	return view('user.updateusername');
+})->middleware('authorize');
+Route::post('/updateusername',[UserController::class,'updateusername'])->middleware('authorize');
 Route::fallback(function () {
     return view('error');
 });

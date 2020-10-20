@@ -281,4 +281,25 @@ class UserController extends Controller
           }
       }
 
+      public function updateusername(Request $request)
+      {
+        $validator = Validator::make($request->all(),[
+            'username' => 'required|min:6',
+          ]);
+
+          if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+          }
+          if(Gamer::updateusername($request) == 1)
+          {
+            $request->session()->flash('success', 'username updated');
+            return redirect()->to('/profile');
+          }
+          else
+          {
+            $request->session()->flash('fail', 'username not available.');
+            return back();
+          }
+      }
+
 }

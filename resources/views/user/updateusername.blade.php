@@ -6,7 +6,7 @@
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
@@ -20,7 +20,7 @@
 
   </head>
     <body>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="opening-page.html">Pro-Gamers</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -57,24 +57,34 @@
           </ul>
       </div>
       @endif
+       @if(Session::has('fail'))
+      <div class="alert alert-danger">
+        {{ Session::get('fail') }}
+      </div>
+      @endif
+      @if(Session::has('success'))
+      <div class="alert alert-success">
+        {{ Session::get('success') }}
+      </div>
+     @endif
     </div>
       <div class="container" id="container1">
         <br>
         <br>
-        <form method="post" action="update">
+        <form method="post" action="updateusername">
           @csrf
               <div class="row-md">
                 <div class="col">
                   <center>
-                  <h3> Enter New Password </h3>
+                  <h3> Enter New Username </h3>
                 <br>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1"><img class="username" src="{{ asset('/resources/images/key.png') }}" alt="key-logo"></span>
+                      <span class="input-group-text" id="basic-addon1"><img class="username" src="{{ asset('/resources/images/user.png') }}" alt="key-logo"></span>
                     </div>
-                    <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" name="password">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Password" aria-describedby="basic-addon1" name="username">
                   </div>
-                  <input  class="btn btn-primary" type="submit" value="Update Password">
+                  <input  class="btn btn-primary" type="submit" value="Update Username">
                   <br>
                     </center>
              </div>
@@ -94,7 +104,6 @@
     <br>
     <p class="end">© 2020 eCode.js</p>
   </div>
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </div>
