@@ -82,11 +82,11 @@
             <input  class="btn btn-primary" type="login" value="Comment" onclick="comment11()">
           </div>   
         </form>
-        <div id=comments>
+        <div id=comments align="left">
           
                 @foreach ($comments as $comment)
-                <strong style="float: left;">{{$comment->gamername}}  </strong>
-                <div align="left"><p>{{$comment->comment}}</p></div>
+                <strong align="left">{{$comment->gamername}}  </strong>
+                <p>{{$comment->comment}}</p>
                 @endforeach
                 </div>
       </div>
