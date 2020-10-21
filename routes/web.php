@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+Route::get('/c', [PostController::class,'fire']);
 Route::get('/a', [UserController::class,'home1']);
 Route::get('/b', [PostController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');

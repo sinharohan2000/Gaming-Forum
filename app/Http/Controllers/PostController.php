@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Models\Notificationmodel;
 use App\Models\Rating;
 use Session;
+use App\Events\Myevent;
 use DB;
 use App\Http\Controllers\Storage;
 
@@ -21,6 +22,11 @@ class PostController extends Controller
         return view('chat.chat');
     	echo Crypt::encryptString('hi');  
     }
+
+    public function fire(){
+        event(new MyEvent("hello world"));
+    }
+
     public static function convertToArray($array)
     {
          $result = array();

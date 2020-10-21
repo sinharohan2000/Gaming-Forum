@@ -1,42 +1,20 @@
 <!DOCTYPE html>
 <head>
   <title>Pusher Test</title>
+   <meta name="csrf-token" content="{{ csrf_token() }}">
+   <script type="text/javascript" src="{{asset('/public/js/bootstrap.js')}}"></script>
 </head>
 <body>
   <h1>Pusher Test</h1>
   <p>
-    Publish an event to channel <code>my-channel</code>
-    with event name <code>my-event</code>; it will appear below:
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
   </p>
-  <div id="app">
-    <ul>
-      <li v-for="message in messages">
-        {{message}}
-      </li>
-    </ul>
-  </div>
-
-  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script>
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher('797d56585f48ae32e015', {
-      cluster: 'ap2'
-    });
-
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function(data) {
-      app.messages.push(JSON.stringify(data));
-    });
-
-    // Vue application
-    const app = new Vue({
-      el: '#app',
-      data: {
-        messages: [],
-      },
-    });
-  </script>
 </body>
+<script>
+	var channel = Echo.channel('my-channel');
+	channel.listen('.my-event', function(data) {
+ 	 alert(JSON.stringify(data));
+ 	 console.log(data);
+	});
+</script>
