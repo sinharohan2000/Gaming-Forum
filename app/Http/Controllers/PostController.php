@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\Gamer;
 use App\Models\Post;
 use App\Models\Comment;
@@ -17,7 +18,9 @@ class PostController extends Controller
 {
     public function index()
     {
-    	echo "hi";    }
+        return view('chat.chat');
+    	echo Crypt::encryptString('hi');  
+    }
     public static function convertToArray($array)
     {
          $result = array();
