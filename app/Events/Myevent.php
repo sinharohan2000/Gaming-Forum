@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Message;
 
 class Myevent implements ShouldBroadcast
 {
@@ -20,24 +21,25 @@ class Myevent implements ShouldBroadcast
      * @return void
      */
 
-    public $message;
-    public function __construct($message)
+   public $message;
+ 
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct(Message $message)
     {
-         $this->message = $message;
+        $this->message = $message;
     }
-
+ 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return new Channel('my-channel');
-    }
-
-    public function broadcastAs()
-    {
-      return 'my-event';
+        return new PrivateChannel('my-channel.'.$this->message->to);
     }
 }

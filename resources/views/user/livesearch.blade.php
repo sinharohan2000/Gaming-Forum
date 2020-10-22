@@ -6,7 +6,7 @@
   <title>Sign-up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ asset('/resources/css/styles.css') }}">
   <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
@@ -33,7 +33,7 @@
   <div class="container-fluid">
     <center>
       <h1>Sign-Up</h1><br>
-       <p role="alert" id = "message" style="height: 50px;width: 350px; display: none"></p>
+      <p role="alert" id = "message" style="height: 50px;width: 350px; display: none"></p>
     </center>
     <form method="post" action="create">
       @csrf

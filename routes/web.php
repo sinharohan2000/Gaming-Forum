@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Notification;
 use App\Http\Controllers\GoogleLoginController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +23,12 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
-Route::get('/c', [PostController::class,'fire']);
-Route::get('/a', [UserController::class,'home1']);
-Route::get('/b', [PostController::class,'index']);
+Route::get('/d',function(){
+	return view('user.livesearch');
+});
+Route::get('/c', [PaymentController::class,'send']);
+Route::get('/a', [UserController::class,'index']);
+Route::get('/b', [PaymentController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
 Route::view('/signin', 'user.signin')->middleware('usercheck');
 Route::view('/forget','user.forget')->middleware('usercheck');
@@ -59,6 +63,7 @@ Route::get('/updateusername',function(){
 	return view('user.updateusername');
 })->middleware('authorize');
 Route::post('/updateusername',[UserController::class,'updateusername'])->middleware('authorize');
+Route::post('/avail',[UserController::class,'avail']);
 Route::fallback(function () {
     return view('error');
 });

@@ -181,4 +181,9 @@ class Gamer extends Model
         else
           return 0;   
       }
+
+      public static function avail($username)
+      {
+        return count(self::convertToArray(DB::table('gamers')->where('username',$username)->get()));
+      }
 }

@@ -77,12 +77,13 @@
                 <div class="col">
                   <center>
                   <h3> Enter New Username </h3>
+                  <p role="alert" id = "message" style="height: 50px;width: 350px; display: none"></p>
                 <br>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1"><img class="username" src="{{ asset('/resources/images/user.png') }}" alt="key-logo"></span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Password" aria-describedby="basic-addon1" name="username">
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Password" aria-describedby="basic-addon1" name="username" id="username" onkeyup="showHint(this.value)" required>
                   </div>
                   <input  class="btn btn-primary" type="submit" value="Update Username">
                   <br>
@@ -108,4 +109,34 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </div>
   </body>
+  <script type="text/javascript">
+  function showHint(val){
+    document.getElementById("message").style.display = "block";
+    if(val.length < 6){
+       $('#message').html("Username must be of atleast 6 character");
+       document.getElementById("message").className = "alert-primary alert"
+    }else{
+      var search = val;
+      $('#message').html("");
+        $.ajax({
+              url: "/gamingforum/avail",
+                type: "post",
+                data: {
+                "_token": "{{ csrf_token() }}",
+                "search": search
+               },
+        success:function(data){
+          if(data == 0){
+            document.getElementById("message").className = "alert-success alert"
+            $('#message').html("Username is avaiable");
+          }
+          else{
+             document.getElementById("message").className = "alert-warning alert"
+            $('#message').html("Username is not avaiable");
+          }
+        }
+    });
+      }
+  }
+</script>
 </html>

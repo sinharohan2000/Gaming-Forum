@@ -14,11 +14,13 @@ use Session;
 use App\Events\Myevent;
 use DB;
 use App\Http\Controllers\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function index()
     {
+        echo Auth::check();
         return view('chat.chat');
     	echo Crypt::encryptString('hi');  
     }

@@ -25477,6 +25477,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "797d56585f48ae32e015",
   cluster: "ap2",
+  authEndpoint: '/gamingforum/broadcasting/auth',
   forceTLS: true
 });
 

@@ -15,9 +15,14 @@ use App\Http\Controllers\Storage;
 
 class UserController extends Controller
 {
+      public function auth(Request $request)
+       {
+
+        }
+
     public function index()
       {
-    	 echo "hi";
+    	 $pusher = new Pusher\Pusher( $app_key, $app_secret, $app_id, array( 'cluster' => $app_cluster, 'useTLS' => true ) );
       }
       public function home()
       {
@@ -300,6 +305,11 @@ class UserController extends Controller
             $request->session()->flash('fail', 'username not available.');
             return back();
           }
+      }
+
+      public function avail(Request $request)
+      {
+        return Gamer::avail($request->input('search'));
       }
 
 }
