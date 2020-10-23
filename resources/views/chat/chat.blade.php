@@ -13,7 +13,7 @@
     with event name <code>my-event</code>.
   </p>
   <textarea id = "message"></textarea>
-  <button type="button" class="btn btn-primary" value="Send" style= "width: 60px; height: 20px;" onclick="send()"></button>
+  <button type="button" class="btn btn-primary" style= "width: 100px; height: 40px;" onclick="send()">Send</button>
   <div id="chat"></div>
 </body>
 <script>
