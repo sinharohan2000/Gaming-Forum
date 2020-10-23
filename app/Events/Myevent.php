@@ -40,6 +40,6 @@ class Myevent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('my-channel.'.$this->message->to);
+        return new PrivateChannel('my-channel.'.$this->message->to.".".$this->message->from);
     }
 }

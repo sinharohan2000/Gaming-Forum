@@ -55,6 +55,7 @@
         <div id="followMessage"></div>
         <button id="follow" onclick="follow(<?= $gamerdetail[0]['id'] ?>)" class="btn btn-primary btn-sm">Follow</button>
         @endif
+        <a href="/gamingforum/chat/{{base64_encode(base64_encode($gamerdetail[0]['id']))}}" class="btn btn-primary">Message</a>
       </div>
       <div class="col-6" align="center">
         <br>

@@ -26,9 +26,9 @@ Route::get('/welcome', function () {
 Route::get('/d',function(){
 	return view('user.livesearch');
 });
-Route::get('/c', [PaymentController::class,'send']);
+Route::post('/send', [PaymentController::class,'send']);
 Route::get('/a', [UserController::class,'index']);
-Route::get('/b', [PaymentController::class,'index']);
+Route::get('/chat/{receiver}', [PaymentController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
 Route::view('/signin', 'user.signin')->middleware('usercheck');
 Route::view('/forget','user.forget')->middleware('usercheck');

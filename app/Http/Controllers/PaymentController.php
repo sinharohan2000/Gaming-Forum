@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
  
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Gamer;
 use App\Models\Message;
 use App\Events\Myevent;
 use Session;
@@ -12,23 +14,21 @@ class PaymentController extends Controller
         $this->middleware('authorize');
     }
  
-    public function index()
+    public function index(Request $request)
     {
+    	$receiver = base64_decode(base64_decode($request->segment(2)));
         $user_id = Session::get('user')[0]['id'];
-        $data = array('user_id' => $user_id);
+        $gamerdetail = Gamer::fetchuser($receiver);
  
-        return view('chat.chat', ["user_id" => $user_id]);
+        return view('chat.chat', ["user_id" => $user_id,"gamerdetail" => $gamerdetail]);
     }
  
-    public function send()
+    public function send(Request $request)
     {
-        // ...
-         
-        // message is being sent
         $message = new Message;
-        $message->setAttribute('from', 5);
-        $message->setAttribute('to', 5);
-        $message->setAttribute('message', 'Demo message from user 1 to user 2');
+        $message->setAttribute('from', Session::get('user')[0]['id']);
+        $message->setAttribute('to', $request->input('receiver_id'));
+        $message->setAttribute('message', $request->input('send_message'));
         $message->save();
          
         // want to broadcast NewMessageNotification event
