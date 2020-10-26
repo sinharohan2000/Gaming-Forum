@@ -39,6 +39,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/notification">Notification</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/chats">Chats</a>
+        </li>
       </ul>
     </div>
   </nav>

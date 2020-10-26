@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Home</title>
+  <title>Notifications</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -30,14 +30,14 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
             <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
-            <a class="dropdown-item" href="/gamingforum/logout">Log OUt</a>
+            <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/gamingforum/notification">Notification</a>
+          <a class="nav-link" href="/gamingforum/profile">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/chats">Chats</a>
@@ -45,64 +45,39 @@
       </ul>
     </div>
   </nav>
-    <div align="center">
-      @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{ Session::get('success') }}
-        </div>
-        @endif
-      </div>
-      <div align="center">
-      @if(Session::has('fail'))
-        <div class="alert alert-danger">
-            {{ Session::get('fail') }}
-        </div>
-        @endif
-      </div>
   <div class="container">
     <div class="row">
       <div class="col-3" align="center">
         <br>
         <h3>{{$userdetail[0]['username']}}</h3>
         <img style="height: 250px; width: 250px;" class="rounded-circle" src="{{$userdetail[0]['profilepath']}}" class="card-img-top" alt="Img/vid that the user posted"><br><br>
-        <form method="post" action="/gamingforum/changeprofile" enctype="multipart/form-data">
-          @csrf
-          <strong>Change Profile Picture</strong>
-          <input type="file" name="photo" id="photo">
-          <input style="width: 100px;height: 30px" value="Upload" class="btn btn-primary btn-sm" type="submit">
-        </form>
-        <h4>Followers   {{$followers}}</h4>
-        <h4>Following   {{$followings}}</h4>
       </div>
       <div class="col-6" align="center">
         <br>
         <br>
-        <h2 align="center">Feed</h2>
+        <h2 align="center">Notifications</h2>
         <hr class="dotted">
         <br>
-        @if (count($posts) > 0)
-          @foreach ($posts as $post)
-             <div class="card post" style="width: 40rem;">
-            
+        <?php
+        if(count($notifications) > 0){
+            foreach ($notifications as $notification){
+            ?>
+            <div class="card post" style="width: 35rem;">
               <div class="card-body">
-                <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
-                <p class="card-text">{{$post['message']}}</p>
-                <p class="card-text">{{$post['tags']}}</p>
-                 <p class="card-text"> Earned money from this post {{$post['money']}} </p>
-                  <p class="card-text">Avrage rating of this post {{$post['rating']}}⭐</p>
-                <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
-                <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
+                <p align="left" style="margin-bottom:0px"><?= $notification['notification'];?></p>
+                </div>
               </div>
-              <br><br>
+              <?php }
+              } else{ 
+              ?>
+              <div class="card post" style="width: 35rem;">
+                <div class="card-body">
+                <p align="left" style="margin-bottom:0px">No Notification available.</p>
+                </div>
               </div>
-          
-          @endforeach
-          <br><br>
-        @else
-            <div class="card-body">
-              <p class="card-text">No Post available.</p>
-            </div>
-        @endif
+              <?php
+              }
+            ?>
         <br><br>
      </div>
   </div>

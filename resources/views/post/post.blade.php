@@ -26,6 +26,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
             <a class="dropdown-item" href="/gamingforum/logout">Log OUt</a>
           </div>
         </li>
@@ -33,7 +34,13 @@
           <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/profile">Profile</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/gamingforum/notification">Notification</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/chats">Chats</a>
         </li>
       </ul>
     </div>

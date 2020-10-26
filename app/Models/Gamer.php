@@ -155,7 +155,9 @@ class Gamer extends Model
 
       public static function fetchuserbyname($name)
       {
-        return self::convertToArray(DB::table('gamers')->where('username',$name)->select('username','id')->get());
+        $username = Session::get('user')[0]['username'];
+        $query = "SELECT id,username FROM gamers WHERE username = '$name' AND username != '$username'";
+        return self::convertToArray(DB::select(DB::raw($query)));
       }
 
       public static function changeprofile(Request $request)
@@ -185,5 +187,11 @@ class Gamer extends Model
       public static function avail($username)
       {
         return count(self::convertToArray(DB::table('gamers')->where('username',$username)->get()));
+      }
+
+      public static function fetchChatsUser($ids)
+      {
+        $users = self::convertToArray(DB::table('gamers')->whereIn('id', $ids)->get(['id','username','profilepath']));
+        return $users;
       }
 }

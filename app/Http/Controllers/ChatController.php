@@ -1,14 +1,13 @@
 <?php
 namespace App\Http\Controllers;
- 
-use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use App\Models\Gamer;
 use App\Models\Message;
 use App\Events\Myevent;
 use Session;
  
-class PaymentController extends Controller
+class ChatController extends Controller
 {
     public function __construct() {
         $this->middleware('authorize');
@@ -37,5 +36,6 @@ class PaymentController extends Controller
         $message->setAttribute('message', $request->input('send_message'));
         $message->save();
         event(new Myevent($message));
+        return $message->created_at;
     }
 }

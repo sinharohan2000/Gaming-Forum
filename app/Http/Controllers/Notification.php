@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notificationmodel;
+use App\Models\Gamer;
 use Session;
 class Notification extends Controller
 {
@@ -21,6 +22,7 @@ class Notification extends Controller
     public function fetchnotification()
     {
         $notification = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);
-	     return view('post.notification',['notifications' => $notification]);
+         $userdetail = Gamer::fetchuser(Session::get('user')[0]['id']);
+	     return view('post.notifications',['userdetail' => $userdetail, 'notifications' => $notification]);
     }
 }

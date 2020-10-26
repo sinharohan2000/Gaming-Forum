@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Notification;
 use App\Http\Controllers\GoogleLoginController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,9 +26,8 @@ Route::get('/welcome', function () {
 Route::get('/d',function(){
 	return view('user.livesearch');
 });
-Route::post('/send', [PaymentController::class,'send']);
+Route::post('/send', [ChatController::class,'send']);
 Route::get('/a', [UserController::class,'index']);
-Route::get('/chat/{receiver}', [PaymentController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
 Route::view('/signin', 'user.signin')->middleware('usercheck');
 Route::view('/forget','user.forget')->middleware('usercheck');
@@ -64,6 +63,8 @@ Route::get('/updateusername',function(){
 })->middleware('authorize');
 Route::post('/updateusername',[UserController::class,'updateusername'])->middleware('authorize');
 Route::post('/avail',[UserController::class,'avail']);
+Route::get('/chat/{receiver}', [ChatController::class,'chat']);
+Route::get('/chats', [ChatController::class,'chats']);
 Route::fallback(function () {
     return view('error');
 });

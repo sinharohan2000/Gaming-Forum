@@ -29,6 +29,8 @@ return [
     'env' => env('APP_ENV', 'production'),
     'AWS_DEFAULT_REGION' => env('AWS_DEFAULT_REGION'),
     'AWS_BUCKET' => env('AWS_BUCKET'),
+    'PUSHER_SECRET' => env('PUSHER_APP_SECRET'),
+    'PUSHER_APP_KEY' => env('PUSHER_APP_KEY'),
 
     /*
     |--------------------------------------------------------------------------

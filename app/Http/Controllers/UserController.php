@@ -15,15 +15,6 @@ use App\Http\Controllers\Storage;
 
 class UserController extends Controller
 {
-      public function auth(Request $request)
-       {
-
-        }
-
-    public function index()
-      {
-    	 $pusher = new Pusher\Pusher( $app_key, $app_secret, $app_id, array( 'cluster' => $app_cluster, 'useTLS' => true ) );
-      }
       public function home()
       {
        if(Session::has('user'))
@@ -39,7 +30,7 @@ class UserController extends Controller
               $result[$i]['rating'] = Rating::ratingfetch($result[$i]['id']);
 
             }
-              return view('user.home1',["userdetail" => $userdetail,"posts" => $result]);
+              return view('user.home',["userdetail" => $userdetail,"posts" => $result]);
             }
               else
             return redirect()->to('/');
