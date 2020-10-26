@@ -20,7 +20,7 @@
 
   </head>
     <body>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="opening-page.html">Pro-Gamers</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -33,10 +33,12 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/gamingforum/home">Home</a>
-            <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
             <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/notification">Notification</a>
@@ -44,8 +46,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/profile">Profile</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/chats">Chats</a>
+        </li>
       </ul>
-    </div>
   </nav>
       <div>
       @if ($errors->any())

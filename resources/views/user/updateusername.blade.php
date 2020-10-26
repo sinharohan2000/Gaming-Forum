@@ -33,10 +33,12 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/gamingforum/home">Home</a>
             <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
             <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/home">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/notification">Notification</a>
@@ -44,8 +46,10 @@
         <li class="nav-item">
           <a class="nav-link" href="/gamingforum/profile">Profile</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/chats">Chats</a>
+        </li>
       </ul>
-    </div>
   </nav>
       <div>
       @if ($errors->any())
@@ -128,11 +132,11 @@
         success:function(data){
           if(data == 0){
             document.getElementById("message").className = "alert-success alert"
-            $('#message').html("Username is avaiable");
+            $('#message').html("Username is available");
           }
           else{
              document.getElementById("message").className = "alert-warning alert"
-            $('#message').html("Username is not avaiable");
+            $('#message').html("Username is not available");
           }
         }
     });

@@ -72,7 +72,9 @@
                   </div>
                 @endif
               @endforeach
-              <div class="row no-gutters" id="chat"></div>
+              <div  id="chat">
+                <div class="row no-gutters"></div>
+              </div>
           <div class="row">
             <div class="col-12">
               <div class="message-area">
@@ -105,10 +107,10 @@
   });
   </script>
   <script>
+    var date = '<?=date('Y-m-d H:i:s');?>';
   var channel = Echo.private('my-channel.{{$user_id}}.{{$gamerdetail[0]['id']}}');
   channel.listen('Myevent', function(data) {
-   console.log(data['message']['message']);
-   var html = `<div class="col-md-5"><div class="chat-messages chat-messages--left"><strong>${data['message']['message']}</strong></div></div>`;
+   var html = `<div class="col-md-5"><div class="chat-messages chat-messages--left"><strong>${data['message']['message']}</strong><br><small>${date}</small></div></div>`;
     $('#chat').append(html);
   });
   </script>
@@ -127,7 +129,7 @@
                },
                success:function(data){
                 var html = 
-                `<div class="col-md-5 offset-md-7"><div class="chat-messages chat-messages--right"><strong>${send_message}</strong></div></div>`;
+                `<div class="col-md-5 offset-md-7"><div class="chat-messages chat-messages--right"><strong>${send_message}</strong><br><small>${data}</small></div></div>`;
                 $('#chat').append(html);
                 $('#message').val("");
                }

@@ -6,6 +6,7 @@ use App\Models\Gamer;
 use App\Models\Message;
 use App\Events\Myevent;
 use Session;
+use DB;
  
 class ChatController extends Controller
 {
@@ -36,6 +37,6 @@ class ChatController extends Controller
         $message->setAttribute('message', $request->input('send_message'));
         $message->save();
         event(new Myevent($message));
-        return $message->created_at;
+        return date('Y-m-d H:i:s');
     }
 }

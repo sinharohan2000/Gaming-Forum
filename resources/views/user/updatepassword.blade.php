@@ -16,34 +16,39 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="welcome">Pro-Gamers</a>
+    <a class="navbar-brand" href="opening-page.html">Pro-Gamers</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="welcome">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown active">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+            Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
+            <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a><!-- TODO: Add Link -->
+          <a class="nav-link" href="/gamingforum/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/notification">Notification</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/chats">Chats</a>
         </li>
       </ul>
+        <div class="input-group" style="text-align: right; display: inline-block;">
+          <input  type="search" placeholder="Search" aria-label="Search" id = "search" style="height: 38px; width: 180px;">
+          <button class="btn btn-outline-success my-2 my-sm-0 mr-sm-3 " id = "submit" onclick="search()">Search Gamers/Tags</button>
+        </div>
     </div>
   </nav>
 
