@@ -24,7 +24,7 @@ class Message extends Model
 
     public static function fetchMessage($sender_id,$receiver_id)
     {
-    	$query = "SELECT * FROM `messages` WHERE (sender_id = $sender_id AND receiver_id = $receiver_id) OR sender_id = $receiver_id AND receiver_id = $sender_id ORDER BY id DESC LIMIT 20";
+    	$query = "SELECT sender_id,receiver_id,message,DATE_FORMAT(created_at, '%d-%m %H:%i') AS created_at FROM `messages` WHERE (sender_id = $sender_id AND receiver_id = $receiver_id) OR sender_id = $receiver_id AND receiver_id = $sender_id ORDER BY id DESC LIMIT 20 ";
     	$result = DB::select(DB::raw($query));
     	return array_reverse(self::convertToArray($result));
     }

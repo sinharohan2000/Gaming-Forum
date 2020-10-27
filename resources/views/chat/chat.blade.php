@@ -72,9 +72,7 @@
                   </div>
                 @endif
               @endforeach
-              <div  id="chat">
-                <div class="row no-gutters"></div>
-              </div>
+            </div>
           <div class="row">
             <div class="col-12">
               <div class="message-area">
@@ -107,11 +105,11 @@
   });
   </script>
   <script>
-    var date = '<?=date('Y-m-d H:i:s');?>';
+    var date = '<?=date('m-d H:i');?>';
   var channel = Echo.private('my-channel.{{$user_id}}.{{$gamerdetail[0]['id']}}');
   channel.listen('Myevent', function(data) {
-   var html = `<div class="col-md-5"><div class="chat-messages chat-messages--left"><strong>${data['message']['message']}</strong><br><small>${date}</small></div></div>`;
-    $('#chat').append(html);
+   var html = `<div class="row no-gutters"><div class="col-md-5"><div class="chat-messages chat-messages--left"><strong>${data['message']['message']}</strong><br><small>${date}</small></div></div></div>`;
+    $('.chat-screen').append(html);
   });
   </script>
   <script type="text/javascript">
@@ -129,8 +127,8 @@
                },
                success:function(data){
                 var html = 
-                `<div class="col-md-5 offset-md-7"><div class="chat-messages chat-messages--right"><strong>${send_message}</strong><br><small>${data}</small></div></div>`;
-                $('#chat').append(html);
+                `<div class="row no-gutters"><div class="col-md-5 offset-md-7"><div class="chat-messages chat-messages--right"><strong>${send_message}</strong><br><small>${data}</small></div></div></div>`;
+                $('.chat-screen').append(html);
                 $('#message').val("");
                }
 
