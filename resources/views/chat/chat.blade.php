@@ -107,6 +107,7 @@
   <script>
     var date = '<?=date('m-d H:i');?>';
   var channel = Echo.private('my-channel.{{$user_id}}.{{$gamerdetail[0]['id']}}');
+  console.log(channel);
   channel.listen('Myevent', function(data) {
    var html = `<div class="row no-gutters"><div class="col-md-5"><div class="chat-messages chat-messages--left"><strong>${data['message']['message']}</strong><br><small>${date}</small></div></div></div>`;
     $('.chat-screen').append(html);
