@@ -17,17 +17,10 @@ use App\Http\Controllers\ChatController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-Route::get('/d',function(){
-	return view('user.livesearch');
+Route::get('gamingforum', function(){
+	return view('welcome');
 });
 Route::post('/send', [ChatController::class,'send']);
-Route::get('/a', [UserController::class,'index']);
 Route::view('/signup', 'user.signup')->middleware('usercheck');
 Route::view('/signin', 'user.signin')->middleware('usercheck');
 Route::view('/forget','user.forget')->middleware('usercheck');
@@ -40,7 +33,6 @@ Route::POST('/home', [UserController::class, 'login']);
 Route::POST('/recover', [UserController::class, 'recover']);
 Route::POST('/updatepassword', [UserController::class, 'updatepassword']);
 Route::POST('/uppost',[PostController::class, 'uppost']);
-Route::get('/test',[PostController::class, 'test']);
 Route::post('follow', [UserController::class, 'follow'])->middleware('authorize');
 Route::get('post/{postid}', [PostController::class, 'getpost'])->middleware('authorize');
 Route::post('/commentpost' , [PostController::class, 'commentpost'])->middleware('authorize');

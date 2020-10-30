@@ -62,51 +62,48 @@
         <a href="/gamingforum/chat/{{base64_encode(base64_encode($gamerdetail[0]['id']))}}" class="btn btn-primary">Message</a>
       </div>
       <div class="col-6" align="center">
-        <br>
-        <div class="col-md">
-        </div>
         <br><br>
         <h2 align="center">Feed</h2>
         <hr class="dotted">
         <br>
         @if (count($posts) > 0)
           @foreach ($posts as $post)
-             <div class="card post" style="width: 40rem;">
-            
-            <div class="card-body">
-              <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
-              <p class="card-text">{{$post['message']}}</p>
-              <p class="card-text">{{$post['tags']}}</p>
+            <div class="card post" style="width: 40rem;">
+              <div class="card-body">
+                <h5 class="card-title" align="left">{{$post['gamername']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
+                <p class="card-text">{{$post['message']}}</p>
+                <p class="card-text">{{$post['tags']}}</p>
                 <p class="card-text">Avgrage rating of this post {{$post['avgrating']}}⭐</p>
                 <p class="card-text">You gave him <span id="star<?=$post['id'] ?>">{{$post['rating']}}</span>⭐</p>
                 <span >Support</span>
-                <input type="number" id="money" name="money" style="width: 100px;height: 30px"/>
+                <input type="number" id="money<?=$post['id'] ?>" name="money" style="width: 100px;height: 30px"/>
                 <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">
                 <span id="paid" align="right" style="float: right"></span>
-              <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
-              <a href="/gamingforum/post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
-              <a class="btn btn-primary dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Rate
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="javascript:void(0)" onclick="rating(1,<?= $post['id'];?>)" >⭐</a>
-              <a class="dropdown-item" href="javascript:void(0)" onclick="rating(2,<?= $post['id'];?>)">⭐⭐</a>
-              <a class="dropdown-item" href="javascript:void(0)" onclick="rating(3,<?= $post['id'];?>)">⭐⭐⭐</a>
-              <a class="dropdown-item" href="javascript:void(0)" onclick="rating(4,<?= $post['id'];?>)">⭐⭐⭐⭐</a>
-              <a class="dropdown-item" href="javascript:void(0)" onclick="rating(5,<?= $post['id'];?>)">⭐⭐⭐⭐⭐</a>
+                <img src="{{$post['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
+                <a href="/gamingforum/post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
+                <a class="btn btn-primary dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Rate
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="rating(1,<?= $post['id'];?>)" >⭐</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="rating(2,<?= $post['id'];?>)">⭐⭐</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="rating(3,<?= $post['id'];?>)">⭐⭐⭐</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="rating(4,<?= $post['id'];?>)">⭐⭐⭐⭐</a>
+                  <a class="dropdown-item" href="javascript:void(0)" onclick="rating(5,<?= $post['id'];?>)">⭐⭐⭐⭐⭐</a>
+                </div>
+              </div>
             </div>
-          </div>
           @endforeach
         @else
             <div class="card-body">
               <p class="card-text">No Post available.</p>
+            </div>
         @endif
-      </div>
-      <br><br><br><br>
+      <br><br>
     </div>
   </div>
-</div>
-</div>
+  </div>
+</body>
   <br><br>
   <div class="bottom-container">
     <center>
@@ -122,6 +119,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script type="text/javascript">
     function rating(val,postid){
+      console.log(val);
       $.ajax({
                 url: "/gamingforum/rating",
                 type: "post",
@@ -138,7 +136,8 @@
   </script>
   <script type="text/javascript">
   function support(money,postid){
-    var money = $('#'+money).val()
+    var money = $('#'+money+postid).val();
+    console.log(money);
         $.ajax({
                 url: "/gamingforum/support",
                 type: "post",

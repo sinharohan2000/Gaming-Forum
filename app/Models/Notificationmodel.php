@@ -39,9 +39,9 @@ class Notificationmodel extends Model
     	$money = $request->input('money');
     	$username = Session::get('user')[0]['username'];
     	$userid = Session::get('user')[0]['id'];
-    	$notification = "<a href = '/gamingforum/gamerprofile/".base64_encode(base64_encode($userid))."'>".$username." </a> has paid you ". $money." for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
+    	$notification = "<a href = '/gamingforum/gamerprofile/".base64_encode(base64_encode($userid))."'>".$username." </a> has paid you ". $money."₹ for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
 
-    	$notification1 = 'you have paid '.$money." <a href='/gamingforum/gamerprofile/".base64_encode(base64_encode($gamerid))."'>". $gamername."</a> for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
+    	$notification1 = 'you have paid '.$money."₹ <a href='/gamingforum/gamerprofile/".base64_encode(base64_encode($gamerid))."'>". $gamername."</a> for this <a href='/gamingforum/post/".base64_encode(base64_encode($request->input('postid')))."'> post </a>";
 
     	DB::table('notifications')->insert(
     	['notification' => $notification, 'gamerid' => $gamerid]);

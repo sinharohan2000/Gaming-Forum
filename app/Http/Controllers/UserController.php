@@ -30,6 +30,7 @@ class UserController extends Controller
               $result[$i]['rating'] = Rating::ratingfetch($result[$i]['id']);
 
             }
+            $result = array_reverse($result);
               return view('user.home',["userdetail" => $userdetail,"posts" => $result]);
             }
               else
@@ -45,31 +46,6 @@ class UserController extends Controller
         }
         return $result;
       }
-
-    public function home1()
-      {
-        if(Session::has('user'))
-          {
-            $posts = Post::fetchposts(Session::get('user')[0]['id']);
-            $posts = self::convertToArray($posts);
-            for ($i=0; $i < count($posts); $i++) { 
-              $posts[$i]['rating'] = Rating::fetchavgrating($posts[$i]['id']);
-              $posts[$i]['money'] = Post::fetchmoney($posts[$i]['id']);
-            }
-            $sql = "SELECT B.* FROM followers AS A 
-            INNER JOIN posts AS B 
-            ON A.gamerid = B.gamerid  WHERE A.followerid = ".Session::get('user')[0]['id'];
-            $result = DB::select(DB::raw($sql));
-      			 $result = self::convertToArray($result);
-            for ($i=0; $i < count($result); $i++) { 
-              $result[$i]['rating'] = Rating::fetchavgrating($result[$i]['id']);
-            }
-              return view('user.home',["posts" => $result,"sposts" => $posts]);
-            }
-              else
-            return redirect()->to('/');
-      }
-
     public function profile(Request $request)
       {
         $gamerid = Session::get('user')[0]['id'];

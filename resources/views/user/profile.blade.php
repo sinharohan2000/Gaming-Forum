@@ -85,12 +85,12 @@
              <div class="card post" style="width: 40rem;">
             
               <div class="card-body">
-                <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
+                <h5 class="card-title" align="left">{{$post['gamername']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
                 <p class="card-text">{{$post['message']}}</p>
                 <p class="card-text">{{$post['tags']}}</p>
                  <p class="card-text"> Earned money from this post {{$post['money']}} </p>
                   <p class="card-text">Avrage rating of this post {{$post['rating']}}⭐</p>
-                <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
+                <img src="{{$post['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
                 <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
               </div>
               <br><br>

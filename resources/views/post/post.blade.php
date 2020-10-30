@@ -27,7 +27,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
             <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
-            <a class="dropdown-item" href="/gamingforum/logout">Log OUt</a>
+            <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
         </li>
         <li class="nav-item">

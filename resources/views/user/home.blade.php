@@ -96,16 +96,16 @@
              <div class="card post" style="width: 40rem;">
             
             <div class="card-body">
-              <h5 class="card-title" align="left">{{$post['gamername']}} has posted.</h5>
+              <h5 class="card-title" align="left">{{$post['gamername']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
               <p class="card-text">{{$post['message']}}</p>
               <p class="card-text">{{$post['tags']}}</p>
                 <p class="card-text">Avgrage rating of this post {{$post['avgrating']}}⭐</p>
                 <p class="card-text">You gave him <span id="star<?=$post['id'] ?>">{{$post['rating']}}</span>⭐</p>
                 <span >Support</span>
-                <input type="number" id="money" name="money" style="width: 100px;height: 30px"/>
+                <input type="number" id="money<?=$post['id'] ?>" name="money" style="width: 100px;height: 30px"/>
                 <input style="width: 100px;height: 30px" value="Pay" class="btn btn-primary btn-sm" onclick="support('money','<?=$post['id'] ?>')">
                 <span id="paid<?=$post['id'] ?>" align="right" style="float: right"></span>
-              <img src="{{$posts[0]['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
+              <img src="{{$post['postpath']}}" class="card-img-top" alt="Img/vid that the user posted">
               <a href="post/{{base64_encode(base64_encode($post['id']))}}" class="btn btn-primary">Comment</a>
               <a class="btn btn-primary dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Rate
@@ -181,7 +181,7 @@
   </script>
   <script type="text/javascript">
   function support(money,postid){
-    var money = $('#'+money).val()
+    var money = $('#'+money+postid).val();
         $.ajax({
                 url: "/gamingforum/support",
                 type: "post",

@@ -2,22 +2,18 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <title>Chats</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ asset('/resources/css/styles.css') }}">
-  <link rel="stylesheet" href="{{ asset('/resources/css/chats.css') }}">
-  <link rel="icon" href="{{ asset('/resources/images/fav.ico') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Monoton&family=Raleway:wght@500&display=swap" rel="stylesheet">
-
-</head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script type="text/javascript" src="{{asset('/public/js/bootstrap.js')}}"></script>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+   <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+   <link rel="stylesheet" type="text/css" href="{{ asset('/resources/css/chats.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('/resources/css/styles.css') }}">
+  </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/gamingforum/home">Pro-Gamers</a>
+    <a class="navbar-brand" href="opening-page.html">Pro-Gamers</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,7 +25,7 @@
             Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/gamingforum/update">Update Password</a>
+            <a class="dropdown-item" href="#">Update Password</a>
             <a class="dropdown-item" href="/gamingforum/updateusername">Update Username</a>
             <a class="dropdown-item" href="/gamingforum/logout">Log Out</a>
           </div>
