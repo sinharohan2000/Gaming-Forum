@@ -63,3 +63,21 @@ body {
 .username {
   width: 15px;
 }
+.about-row {
+  width: 50%;
+  margin: 100px auto 100px auto;
+  text-align: left;
+}
+.about-img-mayank {
+  width: 26%;
+  float: left;
+  margin-right: 30px;
+  border-radius: 200px;
+
+}
+.about-img-abhishek {
+  width: 26%;
+  float: right;
+  margin-left: 30px;
+}
+

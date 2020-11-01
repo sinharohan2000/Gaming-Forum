@@ -8,6 +8,7 @@ use App\Models\Gamer;
 use Session;
 class Notification extends Controller
 {
+     // function to convert an array of object to an array of array
     public static function convertToArray($array)
     {
          $result = array();
@@ -18,7 +19,7 @@ class Notification extends Controller
 
             return $result;
     }
-
+    //fetch notification for a user and open notification page
     public function fetchnotification()
     {
         $notification = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);

@@ -74,7 +74,7 @@
         <br>
           <div class="card post" style="width: 40rem;">
             <div class="card-body">
-              <h5 class="card-title" align="left">{{$post[0]['gamername']}} has posted.</h5>
+              <h5 class="card-title" align="left">{{$userdetail[0]['username']}} has posted.</h5>
               <p class="card-text">{{$post[0]['message']}}</p>
               <p class="card-text">{{$post[0]['tags']}}</p>
                 <p class="card-text">Avrage rating of this post {{$post[0]['avgrating']}}⭐</p>

@@ -51,12 +51,15 @@ Route::post('/changeprofile',[UserController::class,'changeprofile'])->middlewar
 Route::get('/redirect', [GoogleLoginController::class,'redirect']);
 Route::get('/callback', [GoogleLoginController::class,'callback']);
 Route::get('/updateusername',function(){
-	return view('user.updateusername')->middleware('authorize');
+	return view('user.updateusername');
 })->middleware('authorize');
 Route::post('/updateusername',[UserController::class,'updateusername'])->middleware('authorize');
 Route::post('/avail',[UserController::class,'avail']);
 Route::get('/chat/{receiver}', [ChatController::class,'chat'])->middleware('authorize');
 Route::get('/chats', [ChatController::class,'chats'])->middleware('authorize');
+Route::get('/about',function(){
+	return view('about');
+});
 Route::fallback(function () {
     return view('error');
 });

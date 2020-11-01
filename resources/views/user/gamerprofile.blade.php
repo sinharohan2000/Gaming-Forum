@@ -70,7 +70,7 @@
           @foreach ($posts as $post)
             <div class="card post" style="width: 40rem;">
               <div class="card-body">
-                <h5 class="card-title" align="left">{{$post['gamername']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
+                <h5 class="card-title" align="left">{{$gamerdetail[0]['username']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
                 <p class="card-text">{{$post['message']}}</p>
                 <p class="card-text">{{$post['tags']}}</p>
                 <p class="card-text">Avgrage rating of this post {{$post['avgrating']}}⭐</p>
@@ -148,7 +148,14 @@
                 },
                 success: function(data) {
                     var html = "";
-                    html += "<h4>Paid successfully </h4>";
+                    if(data == 1)
+                    {
+                      html += "<h4>Paid successfully </h4>";
+                    }
+                    else
+                    {
+                      html += "<h4>encountered some error </h4>";
+                    }
                     $("#paid").html(html);
                    }
 

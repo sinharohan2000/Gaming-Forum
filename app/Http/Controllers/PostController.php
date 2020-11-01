@@ -18,12 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        echo Auth::check();
-        return view('chat.chat');
-    	echo Crypt::encryptString('hi');  
-    }
+     // function to convert an array of object to an array of array
 
     public static function convertToArray($array)
     {
@@ -35,13 +30,7 @@ class PostController extends Controller
 
             return $result;
     }
-
-    public function fetchnotification()
-    {
-        $var = Notificationmodel::fetchnotification(Session::get('user')[0]['id']);
-        $var = self::convertToArray($var);
-        return view('post.notification',['notifications' => $var]);
-    }
+    //posting the post 
     public function uppost(Request $request)
     {
 
@@ -67,7 +56,7 @@ class PostController extends Controller
             return back();
         }
     }
-
+    //fetching a single post to show
     public function getpost(Request $request)
     {
     	$postid = base64_decode(base64_decode($request->segment(2)));
@@ -78,6 +67,9 @@ class PostController extends Controller
             $post[0]['avgrating'] = Rating::fetchavgrating($post[0]['id']);
             $userdetail = Gamer::fetchuser($post[0]['gamerid']);
         	$comments = Comment::fetchcomment($postid);
+            for ($i=0; $i < count($comments); $i++) { 
+                $comments[$i]->gamername = Gamer::fetchgamername($comments[$i]->gamerid);
+            }
         	return view('post.post',["comments" => $comments, "post" => $post, "userdetail" => $userdetail]);
             }
         else
@@ -85,7 +77,7 @@ class PostController extends Controller
             return view('error');
         }
     }
-
+    //posting a comment on post
     public function commentpost(Request $request)
     {
     	if(!empty($request->input('comment')))
@@ -99,7 +91,7 @@ class PostController extends Controller
     	else
     		return 0;
     }
-
+    //rating any post
     public function rating(Request $request)
     {
     	Rating::rating($request);
@@ -107,12 +99,12 @@ class PostController extends Controller
     	return $request->input('rating');
     	
     }
-
+    // fetch rating given by any(single) user
     public function ratingfetch(Request $req)
     {
     	return Rating::ratingfetch($request->input('postid'));
     }
-
+    //searching users and tags 
     public function search(Request $request)
       {
         $search=$request->input('search');
@@ -125,15 +117,21 @@ class PostController extends Controller
         return $result;
 
       }
-
+      //supporting any post by paying money
       public function support(Request $request)
       {
-        $gamer = self::convertToArray(DB::table('posts')->where('id',$request->input('postid'))->get());
-        $gamerid = $gamer[0]['gamerid'];
-        $gamername = Gamer::fetchgamername($gamerid);
-        Notificationmodel::paynotification($request,$gamerid,$gamername);
-        Post::support($request);
-
-        return ;
+        if($request->input('money') > 0)
+        {
+            $gamer = self::convertToArray(DB::table('posts')->where('id',$request->input('postid'))->get());
+            $gamerid = $gamer[0]['gamerid'];
+            $gamername = Gamer::fetchgamername($gamerid);
+            Notificationmodel::paynotification($request,$gamerid,$gamername);
+            Post::support($request);
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
       }
 }

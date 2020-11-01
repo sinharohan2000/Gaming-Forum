@@ -192,7 +192,14 @@
                 },
                 success: function(data) {
                     var html = "";
-                    html += "<h4>Paid successfully </h4>";
+                    if(data == 1)
+                    {
+                      html += "<h4>Paid successfully </h4>";
+                    }
+                    else
+                    {
+                      html += "<h4>encountered some error </h4>";
+                    }
                     $("#paid"+postid).html(html);
                    }
 

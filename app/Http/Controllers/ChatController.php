@@ -10,15 +10,18 @@ use DB;
  
 class ChatController extends Controller
 {
+    //to check if user is authenciated.
     public function __construct() {
         $this->middleware('authorize');
     }
+    //fetch list of persons where messages has been sent or received
  	public function chats()
  	{
  		$userdetail = Gamer::fetchuser(Session::get('user')[0]['id']);
  		$gamerdetails = Gamer::fetchChatsUser(Message::fetchChatsUser());
  		return view('chat.chats',['userdetail' => $userdetail, 'gamerdetails' => $gamerdetails]);
  	}
+    //fetch previous messsages and open a chat window
     public function chat(Request $request)
     {
     	$receiver = base64_decode(base64_decode($request->segment(2)));
@@ -28,7 +31,7 @@ class ChatController extends Controller
  
         return view('chat.chat', ["user_id" => $user_id,"gamerdetail" => $gamerdetail, "messages" => $messages]);
     }
- 
+    //send a message to a user in real time using pusher library
     public function send(Request $request)
     {
         $message = new Message;

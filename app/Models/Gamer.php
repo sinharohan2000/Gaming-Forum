@@ -179,6 +179,10 @@ class Gamer extends Model
         if(count($checkusername) == 0)
         {
           DB::table('gamers')->where('id',Session::get('user')[0]['id'])->update(['username' => $username]);
+          $sql = "SELECT id,username,email FROM gamers WHERE username = '$username' AND is_active =1 ";
+          $result = self::convertToArray(DB::select(DB::raw($sql)));
+          Session::put('user',$result);
+
           return 1;
         }
         else

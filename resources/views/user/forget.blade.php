@@ -26,6 +26,9 @@
         <li class="nav-item active">
           <a class="nav-link" href="/gamingforum">Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/gamingforum/about">About</a>
+        </li>
       </ul>
     </div>
   </nav>

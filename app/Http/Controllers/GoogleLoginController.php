@@ -10,12 +10,14 @@ use DB;
 use App\Mail\Verification;
 
 class GoogleLoginController extends Controller
+
 {
+    //redirect to google login page
     public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
-
+    // function to convert an array of object to an array of array
     public static function convertToArray($array)
     {
          $result = array();
@@ -26,7 +28,7 @@ class GoogleLoginController extends Controller
 
             return $result;
     }
-
+    //after successful validation google sending data to our server
     public function callback()
     {
             
@@ -46,7 +48,7 @@ class GoogleLoginController extends Controller
                 $user->password = md5(rand(1,10000));
                 $user->token = sha1(rand());
                 $user->is_active = 1;
-                $user->profilePath = "https://gamingtime.s3.ap-south-1.amazonaws.com/images/kindpng_248253.png";
+                $user->profilePath = 'https://gamingtime.s3.ap-south-1.amazonaws.com/images/kindpng_248253.png';
                 $user->save();
                 Verification::signupusinggmail($user->email,$user->password,$user->username);
             }
