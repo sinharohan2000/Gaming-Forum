@@ -239,18 +239,26 @@ class UserController extends Controller
 
       public function changeprofile(Request $request)
       {
-        $extension = $request->photo->extension();
-          if($extension == "png" || $extension == "jpeg" || $extension == "jpg" )
-          {
-            Gamer::changeprofile($request);
+        if($request->has('photo'))
+        {
+          $extension = $request->photo->extension();
+            if($extension == "png" || $extension == "jpeg" || $extension == "jpg" )
+            {
+              Gamer::changeprofile($request);
 
-            return back();
-          }
-          else
-          {
-              $request->session()->flash('fail', 'invalid file format');
-            return back();
-          }
+              return back();
+            }
+            else
+            {
+                $request->session()->flash('fail', 'invalid file format');
+              return back();
+            }
+        }
+        else
+        {
+          $request->session()->flash('fail', 'failed to upload');
+              return back();
+        }
       }
 
       public function updateusername(Request $request)

@@ -32,11 +32,12 @@ class Gamer extends Model
     	$sql = "SELECT username FROM gamers WHERE username='$username' OR email='$email'";
    	 	$result = DB::select(DB::raw($sql));
     	$result = self::convertToArray($result);
+      $profilepath = 'https://gamingtime.s3.ap-south-1.amazonaws.com/images/kindpng_248253.png';
       if(count($result) == 0)
       {
           $token = sha1(rand());
           DB::table('gamers')->insert(
-          ['username' => $request->input('username'), 'email' => $request->input('email'), 'password' => md5($request->input('password')), 'token' => $token, 'is_active' => 0]
+          ['username' => $request->input('username'), 'email' => $request->input('email'), 'password' => md5($request->input('password')), 'token' => $token, 'is_active' => 0, 'profilepath' => $profilepath]
           );
           Verification::verificationmail($request->input('email'),$token);
           return true;

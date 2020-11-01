@@ -25,10 +25,6 @@ class PostController extends Controller
     	echo Crypt::encryptString('hi');  
     }
 
-    public function fire(){
-        event(new MyEvent("hello world"));
-    }
-
     public static function convertToArray($array)
     {
          $result = array();
