@@ -12,6 +12,7 @@ use Storage;
 class Rating extends Model
 {
     use HasFactory;
+     //function to convert array of objects into array of array
     public static function convertToArray($array)
         {
              $result = array();
@@ -22,7 +23,7 @@ class Rating extends Model
 
                 return $result;
         }
-
+        //rating any user's post or updating when user changes his/her mind and want to give some other rating 
     public static function rating(Request $request)
  	{
  		$rating = $request->input('rating');
@@ -37,7 +38,8 @@ class Rating extends Model
     		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id']])->update(["rating" => $rating]);
      	return;
      }
-
+    //calculating avg rating for a post 
+     //avgrating = total rated value/total user who rated
      public static function fetchavgrating($postid)
     {
         $var = 0;
@@ -52,7 +54,7 @@ class Rating extends Model
         	$var = 0;
         return $var;
     }
-    
+    //fetching rating for a post which was given earlier by user.
     public static function ratingfetch($postid)
     {
     	$result = self::convertToArray(DB::table('ratings')->where(

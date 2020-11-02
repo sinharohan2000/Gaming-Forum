@@ -13,7 +13,7 @@ use Config;
 class Post extends Model
 {
     use HasFactory;
-
+     //function to convert array of objects into array of array
     public static function convertToArray($array)
         {
              $result = array();
@@ -24,6 +24,7 @@ class Post extends Model
 
                 return $result;
         }
+        //adding post to our database and sending post to aws to save in bucket.
     public static function post(Request $request)
     {
     	$message = $request->input('textarea');
@@ -37,58 +38,32 @@ class Post extends Model
      	);	
      	return;
     }
-
+    //fetching single post data
      public static function fetchpost($postid)
     {
     	$result = DB::table('posts')->where('id' , $postid)->orderby('id','desc')->get();
     	return self::convertToArray($result);
     }
-
+    //fetching all the posts' data for a user
     public static function fetchposts($gamerid)
     {
     	$result = self::convertToArray(DB::table('posts')->where('gamerid' , $gamerid)->orderby('id','desc')->get());
     	return $result;
     }
- 	
- 	public static function rating(Request $request)
- 	{
- 		$rating = $request->input('rating');
-    	$postid = $request->input('postid');
- 		$result = DB::table('ratings')->where('postid' , $postid)->where('gamerid' , Session::get('user')[0]['id'])->get();
- 		if(count($result) == 0)
- 			DB::table('ratings')->insert(
-    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id'],'rating' => $rating]
-     	);
-     	else
-     		DB::table('ratings')->where(
-    		['postid' => $postid, 'gamerid' => Session::get('user')[0]['id']])->update(["rating" => $rating]);
-     	return;
-
- 	}
+    //supporting any user by paying money
     public static function support(Request $request)
     {
         $money = DB::table('posts')->where('id',$request->input('postid'))->get();
         $val = $money[0]->money+$request->input('money');
         DB::table('posts')->where('id', $request->input('postid'))->update(['money' => $val]);
     }
-    public static function fetchrating($postid)
-    {
-        $var = 0;
-        $result = DB::table('ratings')->where('postid',$postid)->get();
-        $result = self::convertToArray($result);
-        for ($i=0; $i < count($result) ; $i++) { 
-            $var += $result[$i]['rating'];
-        }
-        $var = $var/count($result);
-        return $var;
-    }
-
+    //fetching total money for a post
     public static function fetchmoney($postid)
     {
         $result = self::convertToArray( DB::table('posts')->where('id',$postid)->get());
         return $result[0]['money'];
     }
-
+    //searching relevent post using tags
     public static function fetchpostbytag(Request $request)
     {
         $tags = "'".$request->input('search')."'";

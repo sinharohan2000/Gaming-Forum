@@ -27,6 +27,7 @@ class Verification extends Mailable
      *
      * @return $this
      */
+    //sending verification mail when user sign up
     public static function verificationmail($email,$token)
     {
         Mail::send('emails.mail',['token'=>$token, 'email'=>base64_encode($email)], function($message) use ( $email) {
@@ -34,6 +35,7 @@ class Verification extends Mailable
         ->subject('verify account');
         });
     }
+    //sending recovery mail when user forgot password
     public static function resetpasswordemail($email,$token)
     {
         Mail::send('emails.recover',['token'=>$token, 'email'=>base64_encode($email)], function($message) use ( $email) {
@@ -41,7 +43,7 @@ class Verification extends Mailable
         ->subject('recover password');
         });
     }
-
+    //sending username and password when user signup using gmail 
     public static function signupusinggmail($email,$password,$username)
     {
         Mail::send('emails.signup',['password'=>$password, 'username'=>$username], function($message) use ( $email) {

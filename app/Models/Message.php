@@ -10,7 +10,7 @@ use Session;
 class Message extends Model
 {
     use HasFactory;
-
+    //function to convert array of objects into array of array
     public static function convertToArray($array)
     {
         $result = array();
@@ -21,14 +21,14 @@ class Message extends Model
 
             return $result;
     }
-
+    //fetching message between two user
     public static function fetchMessage($sender_id,$receiver_id)
     {
     	$query = "SELECT sender_id,receiver_id,message,DATE_FORMAT(created_at, '%d-%m %H:%i') AS created_at FROM `messages` WHERE (sender_id = $sender_id AND receiver_id = $receiver_id) OR sender_id = $receiver_id AND receiver_id = $sender_id ORDER BY id DESC LIMIT 20 ";
     	$result = DB::select(DB::raw($query));
     	return array_reverse(self::convertToArray($result));
     }
-
+    //fetching all the user whom any user has sent messages or any other user has sent him/her message request
     public static function fetchChatsUser()
     {
 

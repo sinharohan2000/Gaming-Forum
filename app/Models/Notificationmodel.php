@@ -13,7 +13,7 @@ use Storage;
 class Notificationmodel extends Model
 {
     use HasFactory;
-
+    //function to convert array of objects into array of array
     public static function convertToArray($array)
     {
          $result = array();
@@ -24,6 +24,7 @@ class Notificationmodel extends Model
 
             return $result;
     }
+    //sending notification when user posts something
     public static function post($id)
     {
     	$username = Session::get('user')[0]['username'];
@@ -33,7 +34,7 @@ class Notificationmodel extends Model
     	['notification' => $notification, 'gamerid' => $userid, 'access' => 0]);
      	return;
     }
-
+        //sending notification when user supports another user by paying some money
     public static function paynotification(Request $request,$gamerid,$gamername)
     {
     	$money = $request->input('money');
@@ -49,7 +50,7 @@ class Notificationmodel extends Model
     	['notification' => $notification1, 'gamerid' => Session::get('user')[0]['id']]);	
      	return;
     }
-
+    //fetching all the notification for a user
     public static function fetchnotification($id)
     {
     		$result = self::convertToArray(DB::table('notifications')->where('gamerid',$id)->where('access',1)->get());
@@ -62,7 +63,7 @@ class Notificationmodel extends Model
              $sorted = self::convertToArray($collection->sortByDesc('id'));   
         return $sorted;
     }
-
+    //sending notification when any user start to follow another user
     public static function follownotification($gamerid)
     {
     	$username = Session::get('user')[0]['username'];
