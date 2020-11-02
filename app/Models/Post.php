@@ -67,7 +67,7 @@ class Post extends Model
     public static function fetchpostbytag(Request $request)
     {
         $tags = "'".$request->input('search')."'";
-       $sql = "SELECT id,gamername,tags FROM posts
+       $sql = "SELECT id,gamername,tags,gamerid FROM posts
         WHERE MATCH tags
         AGAINST ($tags IN NATURAL LANGUAGE MODE)";
         return self::convertToArray(DB::select(DB::raw($sql)));

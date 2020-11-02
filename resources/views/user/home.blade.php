@@ -214,6 +214,8 @@
       var html = "";
       var html1 = "";
     var search = $('#search').val();
+    if(search.length > 2)
+    {
     $.ajax({
                 url: "/gamingforum/search",
                 type: "post",
@@ -237,7 +239,7 @@
                         html1 += "tag "+search+" is found in following posts.<br><br>";
                         for (i = 0; i < data['posts'].length; i++) {
                           var link = btoa(btoa(data['posts'][i]['id']));
-                              html1 += data['posts'][i]['gamername']+" Go to the <a href='/gamingforum/post/"+link+"'>Post</a><br>";
+                              html1 += "<strong>"+data['posts'][i]['gamername']+"</strong> Go to gamer's <a href='/gamingforum/post/"+link+"'>Post</a><br>";
                           }
                       }
 
@@ -246,6 +248,7 @@
                        
                    }
         });
+    }
   }
 </script>
 </html>

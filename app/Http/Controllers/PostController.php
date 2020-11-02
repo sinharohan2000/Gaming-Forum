@@ -111,6 +111,9 @@ class PostController extends Controller
         $gamername = Gamer::fetchuserbyname($request->input('search'));
         
         $posts = Post::fetchpostbytag($request);
+        for ($i=0; $i < count($posts); $i++) { 
+            $posts[$i]['gamername'] = Gamer::fetchgamername($posts[$i]['gamerid']);
+        }
         $result = array();
         $result['gamername'] = $gamername;
         $result['posts'] = $posts;
