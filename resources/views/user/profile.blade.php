@@ -85,7 +85,7 @@
              <div class="card post" style="width: 40rem;">
             
               <div class="card-body">
-                <h5 class="card-title" align="left">{{$post['gamername']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
+                <h5 class="card-title" align="left">{{$userdetail[0]['username']}} has posted. <span style="float: right;">{{$post['created_at']}}</span></h5>
                 <p class="card-text">{{$post['message']}}</p>
                 <p class="card-text">{{$post['tags']}}</p>
                  <p class="card-text"> Earned money from this post {{$post['money']}} </p>

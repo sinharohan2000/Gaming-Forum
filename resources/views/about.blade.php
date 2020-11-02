@@ -46,7 +46,7 @@
           <div class="about-row">
             <img class="about-img-mayank" src="{{ asset('/resources/images/mayank.png') }}" alt="mayank-img">
             <h3>Mayank Singh</h3>
-            <p class="para">Learning Backend Developement. Interested in Machine learning.</p>
+            <p class="para">Learning Backend Developement and also Interested in Machine learning.</p>
             <a class="footer-link" href="https://www.linkedin.com/in/mayank-singh-069b53199/"> <img class="facebook" src="{{ asset('/resources/images/linkedin.png') }}" alt="linkedin-logo"></a>
             <a class="footer-link" href="https://github.com/wickviru"> <img class="facebook" src="{{ asset('/resources/images/github.png') }}" alt="github-logo"></a>
 
